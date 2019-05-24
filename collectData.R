@@ -1,0 +1,41 @@
+#-------------------------------------------------------------------------------
+# Program: collectData
+# Objective: collect data from the installations
+# Creation: 24/05/2019
+# Update:
+#-------------------------------------------------------------------------------
+
+#' @title collectData from the different installations
+#'
+#' @param inst informations of the installations from \code{\link{installationTable}}
+#' @return installation rdfType and Experiments Data
+#' @export
+#'
+#' @examples
+#' \donttest{
+#' }
+collectData = function(inst){
+  tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
+    initializeClientConnection(apiID="ws_private", url = installation['api'])
+    aToken = getToken("guest@opensilex.org","guest")
+    count <- getScientificObjects(aToken$data, pageSize = 1)$totalCount
+    scientificObjects <- getScientificObjects(aToken$data, pageSize = count)
+    wsQuery = scientificObjects$data  
+    
+    computedDF = wsQuery%>%
+      select(rdfType, experiment)%>%
+      mutate(Type = str_sub(rdfType, start = str_locate(rdfType, pattern = "#")[,1]+1, end = str_locate(rdfType, pattern = "#")[,1]+16))%>%
+      mutate(Experiments = sapply(str_split(experiment, pattern = "/"), FUN = function(X){X[5]}))%>%
+      mutate(Year = str_sub(experiment, start = str_locate(experiment, pattern = "20")[,1], end = str_locate(experiment, pattern = "20")[,2]+2))%>%
+      mutate(Installation = installation['name'])%>%
+      select(-experiment, -rdfType)
+    return(computedDF)
+  }
+  )
+  computedDF = data.frame()
+  for( i in 1:length(tempData)){
+    computedDF = rbind(computedDF, tempData[[i]])
+  }
+  
+  return(data = computedDF)
+}
