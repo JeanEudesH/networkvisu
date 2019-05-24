@@ -30,16 +30,6 @@ scientificObjectOverview = function(inst){
       mutate(Year = str_sub(experiment, start = str_locate(experiment, pattern = "20")[,1], end = str_locate(experiment, pattern = "20")[,2]+2))%>%
       mutate(Installation = inst['name'])%>%
       select(-experiment, -rdfType)
-  # 
-  # tbl = table(wsQuery$rdfType, dnn = c('Type'), deparse.level = 2)
-  # typeDF = data.frame("Installation" = inst['name'], tbl,
-  #                     "rdfType" = str_sub(names(tbl), start = str_locate(names(tbl), pattern = "#")[,1]+1, end = str_locate(names(tbl), pattern = "#")[,1]+16))
-  # 
-  # exp = table(wsQuery$experiment, dnn = c("experimentURI"))
-  # expDF = data.frame("Installation" = inst['name'], exp,
-  #                    "Year" = str_sub(names(exp), start = str_locate(names(exp), pattern = "20")[,1], end = str_locate(names(exp), pattern = "20")[,2]+2),
-  #                    "Experiments" = sapply(str_split(names(exp), pattern = "/"), FUN = function(X){X[5]})
-  #                    )
   return(data = computedDF)
 }
 
@@ -125,6 +115,22 @@ g4 = ggplot(count.data, aes(x = "", y = prop, fill = rdfType)) +
   labs(title = "Proportion of Scientific Objects within the network", subtitle = "Across all years")
 g4
 
+# ---- V2
+
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/installationTable.R")
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/collectData.R")
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/barplotGraph.R")
+
+INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
+                         instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
+)
+
+DATA = collectData(INST)
+
+barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Experiments")
+barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Year")
+barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Type")
+barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Year")
 # ------------  DEBUG
 # initializeClientConnection(apiID="ws_private", url ="147.100.175.121:8080/phenomeAgrophenAPI/rest/")
 # aToken = getToken("guest@opensilex.org","guest")

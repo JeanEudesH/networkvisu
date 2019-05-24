@@ -30,7 +30,7 @@ barplotGraph = function(computedDF = computedDF, parameterOfInterest, filteredIn
   ##---- VIZ
   g1 = ggplot(data = typeData) +
     geom_col(aes(x = eval(parse(text = parameterOfInterest)), y = n, fill =  eval(parse(text = groupBy)))) + 
-    labs(x = "Type of Scientific Object") + 
+    labs(x = paste(parameterOfInterest)) + 
     labs(y = "Number of Scientific Objects") + 
     labs(fill = groupBy) +
     labs(title = paste("Number of Scientific Objects per", parameterOfInterest), subtitle = paste("Colored by", groupBy))
