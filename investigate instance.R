@@ -51,11 +51,11 @@ for( i in 1:length(graphData)){
 #--------  RDFTYPE
 ##---- DATA
 typeData = computedDF%>%
-  group_by(Installation, Type)%>%
+  group_by(Installation, Type, Year, Experiments)%>%
   count()
 ##---- VIZ
 g1 = ggplot(data = typeData) +
-  geom_col(aes(x = Type, y = n, fill = Installation)) + 
+  geom_col(aes(x = Experiments, y = n, fill = Installation)) + 
   labs(x = "Type of Scientific Object") + 
   labs(y = "Number of Scientific Objects") + 
   labs(title = "Number of Scientific Objects of various type", subtitle = "Colored by Installation")
