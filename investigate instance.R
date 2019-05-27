@@ -6,6 +6,7 @@ library(ggplot2)
 library(stringr)
 library(data.table)
 library(dplyr)
+library(treemap)
 
 instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "http://147.100.175.121:8080/phenomePheno3cAPI/rest/", "http://147.100.175.121:8080/phenomePhenoviaAPI/rest/", "http://147.100.175.121:8080/phenomePhenofieldAPI/rest/", "http://138.102.159.36:8080/phenomeEphesiaAPI/rest/")
 instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
@@ -140,4 +141,13 @@ barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Year")
 barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments")
 barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments", filteredInstallation = "diaphen")
 
-pieGraph(DATA, parameterOfInterest = "Year")
+pieGraph(DATA, parameterOfInterest = "Type")
+
+
+# ---- treemap
+pipo = brewer.pal(name =  "Accent", 5)
+treemap(dtf = DATA2, index = c("Year","Installation"), vSize = "n" ,
+        palette =  pal, title = "PHENOME network", type = "index",
+        fontsize.labels=c(15,12),bg.labels = 0,
+        fontcolor.labels = c("navy", "snow"), border.lwds = c(3, 0.5))
+  
