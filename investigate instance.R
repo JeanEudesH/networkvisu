@@ -98,49 +98,46 @@ g32
 
 #---- Pie chart
 mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")
+
 count.data <- typeData %>%
-  dplyr::group_by(rdfType)%>%
-  summarise(total = sum(Freq))%>%
+  dplyr::group_by(eval(parse(text = parameterOfInterest)))%>%
+  summarise(total = sum(n))%>%
   mutate(prop = round(total/sum(total), digits = 2))%>%
   mutate(lab.ypos = 1-round(cumsum(prop) - 0.5*prop, digits = 2))%>%
   arrange(desc(prop))
 count.data
 
-g4 = ggplot(count.data, aes(x = "", y = prop, fill = rdfType)) +
+g4 = ggplot(count.data, aes(x = "", y = prop, fill = `eval(parse(text = parameterOfInterest))`)) +
   geom_bar(width = 1, stat = "identity", color = "white") +
-  coord_polar("y", start = 0, direction = -1)+
-  geom_text(aes(y = lab.ypos, label = prop), color = "white", size=7)+
-  scale_fill_manual(values = pal2) +
+  coord_polar("y", start = 0, direction = 1)+
+  geom_text(aes(y = lab.ypos, label = prop), color = "white", size=5)+
   theme_void() +
-  labs(title = "Proportion of Scientific Objects within the network", subtitle = "Across all years")
+  labs(fill = parameterOfInterest) +
+  labs(title = "Proportion of Scientific Objects within the network")
 g4
+
 
 # ---- V2
 
 source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/installationTable.R")
 source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/collectData.R")
 source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/barplotGraph.R")
+source('~/Documents/PHISanalysis/RShiny/NetworkVisu/pieGraph.R', echo=TRUE)
 
 INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
                          instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
 )
 
 DATA = collectData(INST)
+DATA2 = collectData(INST)%>%
+  group_by(Installation, Type, Year, Experiments)%>%
+  count()
 
 barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Experiments")
 barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Year")
 barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Type")
 barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Year")
-# ------------  DEBUG
-# initializeClientConnection(apiID="ws_private", url ="147.100.175.121:8080/phenomeAgrophenAPI/rest/")
-# aToken = getToken("guest@opensilex.org","guest")
-# count <- getScientificObjects(aToken$data, pageSize = 1)$totalCount
-# scientificObjects <- getScientificObjects(aToken$data, pageSize = count)
-# wsQuery = scientificObjects$data
+barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments")
+barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments", filteredInstallation = "diaphen")
 
-# 
-# shopping_list <- c("apples x4", "bag of flour", "bag of sugar", "milk x2")
-# str_extract(shopping_list, "\\")
-# str_extract(shopping_list, "[a-z]+")
-# str_extract(shopping_list, "[a-z]{1,4}")
-# str_extract(shopping_list, "\\b[a-z]{1,4}\\b")
+pieGraph(DATA, parameterOfInterest = "Year")
