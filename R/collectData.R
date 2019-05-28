@@ -6,13 +6,20 @@
 #-------------------------------------------------------------------------------
 
 #' @title collectData from the different installations
-#'
+#' @import dplyr
+#' @import phisWSClientR
+#' @import stringr
 #' @param inst informations of the installations from \code{\link{installationTable}}
 #' @return installation rdfType and Experiments Data
 #' @export
 #'
 #' @examples
 #' \donttest{
+#' INST = installationTable(
+#'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
+#'            instancesNames = c("opensilexDemo")
+#'        )
+#' DATA = collectData(INST)
 #' }
 collectData = function(inst){
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){

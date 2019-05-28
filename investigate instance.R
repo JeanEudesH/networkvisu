@@ -120,17 +120,17 @@ g4
 
 # ---- V2
 
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/installationTable.R")
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/collectData.R")
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/barplotGraph.R")
-source('~/Documents/PHISanalysis/RShiny/NetworkVisu/pieGraph.R', echo=TRUE)
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/installationTable.R")
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/collectData.R")
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/barplotGraph.R")
+source('/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/pieGraph.R')
 
 INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
                          instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
 )
 
 DATA = collectData(INST)
-DATA2 = collectData(INST)%>%
+DATA2 = DATA%>%
   group_by(Installation, Type, Year, Experiments)%>%
   count()
 

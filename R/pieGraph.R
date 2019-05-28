@@ -6,8 +6,11 @@
 #-------------------------------------------------------------------------------
 
 #' @title create a piechart to vizualize scientific object across the network
-#'
-#' @param count.data data of rdf Type from \code{\link{pieData}} function
+#' @import dplyr
+#' @import phisWSClientR
+#' @import ggplot2
+#' @import stringr
+#' @param collectData data of rdf Type from \code{\link{collectData}} function
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
 #' @param print boolean, either to print or save the image
 #' @return piechart of scientific objects colored by the argument.
@@ -15,6 +18,12 @@
 #'
 #' @examples
 #' \donttest{
+#' INST = installationTable(
+#'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
+#'            instancesNames = c("opensilexDemo")
+#'        )
+#' DATA = collectData(INST)
+#' pieGraph(DATA, parameterOfInterest = "Type")
 #' }
 pieGraph = function(collectData, parameterOfInterest, print = T){
   count.data <- collectData %>%
@@ -37,6 +46,6 @@ pieGraph = function(collectData, parameterOfInterest, print = T){
   if(print == TRUE){
     g4  
   }else{
-    ggsave(filename = "pieGraph.html", plot = g4)
+    ggsave(filename = "Graph.png", plot = g4)
   }
 }

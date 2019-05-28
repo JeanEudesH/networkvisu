@@ -6,7 +6,10 @@
 #-------------------------------------------------------------------------------
 
 #' @title create a barplot with different point of view from computed Data
-#'
+#' @import dplyr
+#' @import phisWSClientR
+#' @import ggplot2
+#' @import stringr
 #' @param computedDF data of rdf Type from \code{\link{collectData}} function
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
 #' @param groupBy variable to groupBy and color can be (Installation, Type, Year, Experiments)
@@ -17,6 +20,13 @@
 #'
 #' @examples
 #' \donttest{
+#' INST = installationTable(
+#'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
+#'            instancesNames = c("opensilexDemo")
+#'        )
+#' DATA = collectData(INST)
+#' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Experiments")
+#' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Type")
 #' }
 barplotGraph = function(computedDF = computedDF, parameterOfInterest, filteredInstallation = FALSE, groupBy = "Installation", print = T){
   ##---- DATA
@@ -37,6 +47,6 @@ barplotGraph = function(computedDF = computedDF, parameterOfInterest, filteredIn
   if(print == TRUE){
     g1  
   }else{
-    ggsave(filename = "Graph.html", plot = g1)
+    ggsave(filename = "Graph.png", plot = g1)
   }
 }

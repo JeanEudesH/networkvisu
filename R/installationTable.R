@@ -14,6 +14,10 @@
 #'
 #' @examples
 #' \donttest{
+#' INST = installationTable(
+#'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
+#'            instancesNames = c("opensilexDemo")
+#'        )
 #' }
 installationTable <- function(instancesNames, instancesApi ){
   inst = data.frame(name = instancesNames, api = instancesApi)
