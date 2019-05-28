@@ -14,11 +14,7 @@ library(ggplot2)
 library(stringr)
 library(data.table)
 library(dplyr)
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/installationTable.R")
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/collectData.R")
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/barplotGraph.R")
-source('~/Documents/PHISanalysis/RShiny/NetworkVisu/R/pieGraph.R')
-
+library(networkVisu)
 ```
 
 In the EPPN2020 network we have several installations using PHIS information system. This system allows the usage of same standards making cross-installation real time visualization possible. Here is an example of what could be done with such a system. 

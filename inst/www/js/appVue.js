@@ -1,5 +1,5 @@
 // comment out this line from development 
-//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/compareVariableDemo/R");
+ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 
 var App = new Vue({
   el: "#exploreApp",
@@ -9,7 +9,7 @@ var App = new Vue({
       api: ["147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
       RfunctionName: "installationTable"
     },
-    collectData:{
+    collectedData:{
       INST:[],
       computedDF:[],
       functionName: "collectData"
@@ -18,14 +18,15 @@ var App = new Vue({
         iframeInput: "plotDiv",
         functionName: "barplotGraph",
         barplotGraphParameters: "",
-        outputName: "Graph.html"
+        outputName: "Graph.png"
     },
 
   },
   computed: {
     INST: function () {
-      return this.wsParams.name + this.wsparams.api
-    },
+      return [{name: this.wsParams.name} , {api: this.wsParams.api}]
+    }
+  },
   methods: {
     initialize: function (){
         if ($("#name").length != 0) {
@@ -40,6 +41,7 @@ var App = new Vue({
         }
     },
     installationTable: function(){
+      var self = this;
         installationTable = [
             this.wsParams.name,
             this.wsParams.api
@@ -50,14 +52,15 @@ var App = new Vue({
           this.wsParams.RfunctionName,
           // list of arguments names and value
           {
-            instancesNames: this.wsParams.name,
-            instancesApi: this.wsParams.api
+            instancesNames: self.wsParams.name,
+            instancesApi: self.wsParams.api
           },
       
-          function(inputList) {
-            this.collectData.INST
+          function(output) {
             $("#cssLoader").removeClass("is-active");
-            return inputList;
+            self.collectedData.INST = output
+
+            return output;
           }
         ).fail(function(request) {
           $("#cssLoader").removeClass("is-active");
@@ -67,22 +70,24 @@ var App = new Vue({
     collectData: function(){
         $("#cssLoader").addClass("is-active");
         var self = this;
-        inputData = [];
+        self.installationTable()
         // Fill variables
         // the arguments of the function ocpu.rpc are findable here :
         // https://www.opencpu.org/jslib.html#lib-jsonrpc
         return ocpu.rpc(
           //Create array of variables' options
           // R function name
-          this.collectData.collectData,
+          self.collectedData.functionName,
           // list of arguments names and value
           {
-              inst: this.INST
+            instancesNames: self.wsParams.name,
+            instancesApi: self.wsParams.api
           },
       
-          function(inputList) {
+          function(output) {
+            self.collectedData.computedDF = output
             $("#cssLoader").removeClass("is-active");
-            return inputList;
+            return output;
           }
         ).fail(function(request) {
           $("#cssLoader").removeClass("is-active");

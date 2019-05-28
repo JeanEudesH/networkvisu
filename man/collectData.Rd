@@ -4,10 +4,14 @@
 \alias{collectData}
 \title{collectData from the different installations}
 \usage{
-collectData(inst)
+collectData(inst, instancesNames, instancesApi)
 }
 \arguments{
 \item{inst}{informations of the installations from \code{\link{installationTable}}}
+
+\item{instancesNames}{the name of the installation(s)}
+
+\item{instancesApi}{the address of the REST API of the installation(s)}
 }
 \value{
 installation rdfType and Experiments Data

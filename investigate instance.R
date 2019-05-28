@@ -145,7 +145,6 @@ pieGraph(DATA, parameterOfInterest = "Type")
 
 
 # ---- treemap
-pipo = brewer.pal(name =  "Accent", 5)
 treemap(dtf = DATA2, index = c("Year","Installation"), vSize = "n" ,
         palette =  pal, title = "PHENOME network", type = "index",
         fontsize.labels=c(15,12),bg.labels = 0,

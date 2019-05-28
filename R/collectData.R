@@ -10,6 +10,8 @@
 #' @import phisWSClientR
 #' @import stringr
 #' @param inst informations of the installations from \code{\link{installationTable}}
+#' @param instancesNames the name of the installation(s)
+#' @param instancesApi the address of the REST API of the installation(s)
 #' @return installation rdfType and Experiments Data
 #' @export
 #'
@@ -21,7 +23,10 @@
 #'        )
 #' DATA = collectData(INST)
 #' }
-collectData = function(inst){
+collectData = function(inst=NULL, instancesNames, instancesApi){
+  if(is.null(inst)){
+    inst = data.frame(name = instancesNames, api=instancesApi)
+  }
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
     initializeClientConnection(apiID="ws_private", url = installation['api'])
     aToken = getToken("guest@opensilex.org","guest")

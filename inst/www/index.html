@@ -26,10 +26,10 @@
         <div class="container-fluid">
             <h2 >Explore PHIS - Scientific objects</h2>
             <br>
-            <div class="col-md-12">
+            <div class="col-md-12" id="exploreApp">
                 <!-- form -->
                 EXplore the different instances of PHIS currently running. This tool focuses on Scientific Objects and gives some interactive ways of visualizing it. 
-                <form role="form">
+                <form role="form" v-on:load="collectData">
                     <div id="inputForm">
                         <!-- token -->
                         <div class="form-group">
@@ -69,10 +69,17 @@
                                 <option value="PhenoField">PhenoField</option>
                                 <option value="Ephesia">Ephesia</option>
                             </select> 
+                            <br>
+                            Selected installations:
+                            <br>
+                            {{INST[0]}}
                         </div>
                         <!-- submit -->
                         <div class="form-group"></div>
-                        <button id="submit" type="submit" class="btn btn-primary">
+                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="collectData">
+                                load Data!
+                        </button>
+                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showGraph">
                             Show graph!
                         </button>
                         <hr>
@@ -86,16 +93,18 @@
     <div class="embed-responsive embed-responsive-4by3">
         <iframe class="embed-responsive-item" id="plotDiv" allowfullscreen></iframe>
     </div>
-    
+    <!-- vue.JS -->
+    <script src="js/vue.js"></script>
     <!-- jquery -->
     <script src="js/jquery.min.js"></script>
     <script href="inst/www/js/jquery-ui.js"></script>
+    <!-- tether-->
+    <script src="js/tether.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/select2.min.js"></script>
     <!-- opencpu client -->
     <script src="js/opencpu-0.5.js"></script>
-    <script src="js/opensilex.js"></script>
     <!-- user script -->
     <script src="js/appVue.js"></script>
     
