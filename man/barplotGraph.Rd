@@ -4,7 +4,7 @@
 \alias{barplotGraph}
 \title{create a barplot with different point of view from computed Data}
 \usage{
-barplotGraph(computedDF = computedDF, parameterOfInterest,
+barplotGraph(computedDF, parameterOfInterest,
   filteredInstallation = FALSE, groupBy = "Installation", print = T)
 }
 \arguments{

@@ -5,8 +5,8 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ["Diaphen", "OpensilexDemo","Agrophen","Pheno3C","Phenovia","PhenoField","Ephesia"],
-      api: ["147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
+      name: ["OpensilexDemo","Agrophen","Pheno3C","Phenovia","PhenoField","Ephesia"],
+      api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
       RfunctionName: "installationTable"
     },
     collectedData:{
@@ -85,8 +85,8 @@ var App = new Vue({
           },
       
           function(output) {
-            self.collectedData.computedDF = output
             $("#cssLoader").removeClass("is-active");
+            self.collectedData.computedDF = output
             return output;
           }
         ).fail(function(request) {
@@ -96,20 +96,21 @@ var App = new Vue({
     },
     showGraph: function(){
         $("#cssLoader").addClass("is-active");
+        var self = this;
         // Run the R function
         var parameterOfInterest = $("#parameterOfInterest").val();
         var filteredInstallation =$("#filteredInstallation").val();
         var groupBy = $("#groupBy").val();
         var outputName = this.graphParameters.outputName;
         var iframeInput = this.graphParameters.iframeInput;
-        return(req = ocpu.call(
-            this.graphParameters.functionName,
+        return(req = $(iframeInput).rplot(
+          self.graphParameters.functionName,
             {
-              computedDF: this.collectData.computedDF,
+              computedDF: self.collectedData.computedDF,
               parameterOfInterest: parameterOfInterest,
               filteredInstallation: filteredInstallation,
               groupBy: groupBy,
-              print: "TRUE"
+              print: "FALSE"
             },
             function(session) {
             $("#" + iframeInput).attr(

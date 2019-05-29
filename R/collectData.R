@@ -24,8 +24,13 @@
 #' DATA = collectData(INST)
 #' }
 collectData = function(inst=NULL, instancesNames, instancesApi){
-  if(is.null(inst)){
+ #Tests
+   if(is.null(inst)){
     inst = data.frame(name = instancesNames, api=instancesApi)
+  }else{
+    if(is.data.frame(inst)!=TRUE){
+      inst = data.frame(inst)
+    }
   }
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
     initializeClientConnection(apiID="ws_private", url = installation['api'])

@@ -4,7 +4,7 @@
 \alias{collectData}
 \title{collectData from the different installations}
 \usage{
-collectData(inst, instancesNames, instancesApi)
+collectData(inst = NULL, instancesNames, instancesApi)
 }
 \arguments{
 \item{inst}{informations of the installations from \code{\link{installationTable}}}

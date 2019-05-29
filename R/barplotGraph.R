@@ -10,6 +10,7 @@
 #' @import phisWSClientR
 #' @import ggplot2
 #' @import stringr
+#' @import jsonlite
 #' @param computedDF data of rdf Type from \code{\link{collectData}} function
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
 #' @param groupBy variable to groupBy and color can be (Installation, Type, Year, Experiments)
@@ -28,8 +29,11 @@
 #' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Experiments")
 #' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Type")
 #' }
-barplotGraph = function(computedDF = computedDF, parameterOfInterest, filteredInstallation = FALSE, groupBy = "Installation", print = T){
+barplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE, groupBy = "Installation", print = T){
   ##---- DATA
+  if(!is.data.frame(computedDF)){
+    computedDF = fromJSON(computedDF)
+  }
   if(filteredInstallation != FALSE){
     computedDF = computedDF%>%
       filter( Installation == filteredInstallation)
