@@ -4,12 +4,15 @@
 \alias{pieGraph}
 \title{create a piechart to vizualize scientific object across the network}
 \usage{
-pieGraph(collectData, parameterOfInterest, print = T)
+pieGraph(collectData, parameterOfInterest, filteredInstallation = FALSE,
+  print = T)
 }
 \arguments{
 \item{collectData}{data of rdf Type from \code{\link{collectData}} function}
 
 \item{parameterOfInterest}{variable to perform the decomposition (can be Installation, Type, Year, Experiments)}
+
+\item{filteredInstallation}{name of the installation to focus on}
 
 \item{print}{boolean, either to print or save the image}
 }
