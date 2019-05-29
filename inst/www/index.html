@@ -29,10 +29,11 @@
             <div class="col-md-12" id="exploreApp">
                 <!-- form -->
                 EXplore the different instances of PHIS currently running. This tool focuses on Scientific Objects and gives some interactive ways of visualizing it. 
-                <form role="form" v-on:load="collectData">
+                <form role="form" >
                     <div id="inputForm">
-                        <!-- token -->
+                        <!-- parameterOfInterest -->
                         <div class="form-group">
+                            <br>
                             <strong>
                                 <label for="parameterOfInterest"> Parameter of interest </label>
                             </strong>
@@ -43,7 +44,7 @@
                                 <option value="Installation">Installation</option>
                             </select> 
                         </div>
-                        <!-- wsUrl -->
+                        <!-- groupBy -->
                         <div class="form-group">
                             <strong>
                                 <label for="groupBy"> Group By </label>
@@ -58,27 +59,17 @@
                         <div class="form-group">
                                 <strong>
                                         <label for="filter"> Filter by installation ? </label>
-                                    </strong>
+                                </strong>
                             <select id="filteredInstallation" name="filteredInstallation">
                                 <option value="FALSE">All</option>
-                                <option value="Diaphen">Diaphen</option>
-                                <option value="OpensilexDemo">OpensilexDemo</option>
-                                <option value="Agrophen">Agrophen</option>
-                                <option value="Pheno3C">Pheno3C</option>
-                                <option value="Phenovia">Phenovia</option>
-                                <option value="PhenoField">PhenoField</option>
-                                <option value="Ephesia">Ephesia</option>
                             </select> 
                             <br>
-                            Selected installations:
+                            Avaliable installations:
                             <br>
                             {{INST[0]}}
                         </div>
                         <!-- submit -->
                         <div class="form-group"></div>
-                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="collectData">
-                                load Data!
-                        </button>
                         <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showGraph">
                             Show graph!
                         </button>
@@ -90,8 +81,8 @@
     </div>
     
     <!-- plotDiv -->
-    <div class="embed-responsive embed-responsive-4by3">
-        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" width="904" height="528" allowfullscreen></iframe>
+    <div class="embed-responsive embed-responsive-16by9" >
+        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:60%"></iframe>
     </div>
     <!-- vue.JS -->
     <script src="js/vue.js"></script>

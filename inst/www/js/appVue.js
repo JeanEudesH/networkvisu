@@ -17,7 +17,10 @@ var App = new Vue({
     graphParameters: {
         iframeInput: "plotDiv",
         functionName: "barplotGraph",
-        barplotGraphParameters: "",
+        barplotGraphParameters: {
+          filterBy: "filteredInstallation",
+          print: "FALSE"
+    },
         outputName: "Graph.png"
     },
 
@@ -27,6 +30,11 @@ var App = new Vue({
       return [{name: this.wsParams.name} , {api: this.wsParams.api}]
     }
   },
+  mounted:function(){
+    this.fillListInput(inputId = this.graphParameters.barplotGraphParameters.filterBy ,inputList = this.wsParams.name);
+    this.collectData() ;
+    
+   },
   methods: {
     initialize: function (){
         if ($("#name").length != 0) {
@@ -40,6 +48,22 @@ var App = new Vue({
           this.wsParams.api = this.wsParams.params.get("api");
         }
     },
+    fillListInput: function(inputId, inputList){
+      inputData = [];
+      inputList.forEach(function(inputItem) {
+          item = {};
+          item.id = inputItem;
+          item.text = inputItem;
+          inputData.push(item);
+        });
+        // console.log(inputData);
+        defaultSelectParameters = {
+          data: inputData
+        };
+        // merge objects
+        finalSelectParameters = { ...defaultSelectParameters };
+        $("#" + inputId).select2(finalSelectParameters);
+  },
     installationTable: function(){
       var self = this;
         installationTable = [
@@ -110,7 +134,7 @@ var App = new Vue({
               parameterOfInterest: parameterOfInterest,
               filteredInstallation: filteredInstallation,
               groupBy: groupBy,
-              print: "FALSE"
+              print: self.graphParameters.barplotGraphParameters.print
             },
             function(session) {
             $("#" + iframeInput).attr(
