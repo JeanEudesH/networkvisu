@@ -32,7 +32,7 @@ var App = new Vue({
         },
         outputName: "Graph.png"
     },
-
+    tabs: { activetab: 1 }
   },
   computed: {
     INST: function () {

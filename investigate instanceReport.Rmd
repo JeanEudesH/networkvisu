@@ -1,0 +1,66 @@
+---
+title: 'Overview of EPPN2020 network'
+output: html_document
+---
+```{r, echo = F}
+knitr::opts_chunk$set(echo = F)
+```
+
+```{r library, echo = FALSE, warning= FALSE, message=FALSE}
+library(remotes)
+library(phisWSClientR)
+library(RColorBrewer)
+library(ggplot2)
+library(stringr)
+library(data.table)
+library(dplyr)
+library(networkVisu)
+```
+
+In the EPPN2020 network we have several installations using PHIS information system. This system allows the usage of same standards making cross-installation real time visualization possible. Here is an example of what could be done with such a system. 
+This is just counting the number of Scientific Objects.
+
+```{r instances name and address, echo = F}
+INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
+                         instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
+)
+
+```
+
+```{r data query, echo = F, warning=F, message=F, include=F}
+pal1 = brewer.pal(name = 'Set3', n = 12)
+pal2 = brewer.pal(name = 'Dark2', n = 8)
+DATA = collectData(INST)
+```
+
+# RDFTYPE
+
+
+```{r rdftype viz}
+barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Year")
+barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments")
+```
+
+```{r pie chart viz}
+pieGraph(DATA, parameterOfInterest = "Type")
+
+```
+
+```{r experiments viz diaphen}
+barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments", filteredInstallation = "diaphen")
+```
+
+# Year
+
+```{r year viz diaphen}
+barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Experiments")
+barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Type")
+```
+
+# Installation
+```{r}
+barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Experiments")
+barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Year")
+barplotGraph(DATA, parameterOfInterest = "Installation", groupBy = "Type")
+```
+

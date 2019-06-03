@@ -19,6 +19,7 @@
     <!-- css loader -->
     <link rel="stylesheet" href="css/css-loader.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tabs.css">
 </head>
 <div id="cssLoader" class="loader loader-default" data-text="Loading"></div>
 <body>
@@ -30,51 +31,106 @@
                 <!-- form -->
                 Explore the different instances of PHIS currently running. This tool focuses on Scientific Objects and gives some interactive ways of visualizing it. 
                 <form role="form" >
-                                    <div id="BarPlot">
-                                            <!-- parameterOfInterest -->
-                                        <div class="form-group">
-                                            <br>
-                                            <strong>
-                                                <label for="parameterOfInterest"> Parameter of interest </label>
-                                            </strong>
-                                            <select id="parameterOfInterest" name="parameterOfInterest">
-                                                <option value="Type">Type</option>
-                                                <option value="Year">Year</option>
-                                                <option value="Experiments">Experiments</option>
-                                                <option value="Installation">Installation</option>
-                                            </select> 
-                                        </div>
-                                        <!-- groupBy -->
-                                        <div class="form-group">
-                                            <strong>
-                                                <label for="groupBy"> Group By </label>
-                                            </strong>
-                                            <select id="groupBy" name="groupBy">
-                                                <option value="Type">Type</option>
-                                                <option value="Year">Year</option>
-                                                <option value="Experiments">Experiments</option>
-                                                <option value="Installation">Installation</option>
-                                            </select> 
-                                        </div>
-                                        <div class="form-group">
-                                            <strong>
-                                                <label for="filter"> Filter by installation ? </label>
-                                            </strong>
-                                            <select id="filteredInstallation" name="filteredInstallation">
-                                                <option value="FALSE">All</option>
-                                            </select> 
-                                            <br>
-                                            Avaliable installations:
-                                            <br>
-                                            {{INST[0]}}
-                                        </div>
-                                        <!-- submit -->
-                                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
-                                            Show BarPlot!
-                                        </button>
-                                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showpieChart">
-                                            Show PieChart!
-                                        </button>
+
+                        <div id="tabs" class="container">
+  
+                                <div class="tabs">
+                                    <a v-on:click="tabs.activetab=1" v-bind:class="[ tabs.activetab === 1 ? 'active' : '' ]">Barplot</a>
+                                    <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Piechart</a>
+                                    <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Treemap</a>
+                                </div>
+                            
+                                <div class="content">
+                                    <div v-if="tabs.activetab === 1" class="tabcontent">
+                                            <div id="BarPlot">
+                                                    <!-- parameterOfInterest -->
+                                                <div class="form-group">
+                                                    <br>
+                                                    <strong>
+                                                        <label for="parameterOfInterest"> Parameter of interest </label>
+                                                    </strong>
+                                                    <select id="parameterOfInterest" name="parameterOfInterest">
+                                                        <option value="Type">Type</option>
+                                                        <option value="Year">Year</option>
+                                                        <option value="Experiments">Experiments</option>
+                                                        <option value="Installation">Installation</option>
+                                                    </select> 
+                                                </div>
+                                                <!-- groupBy -->
+                                                <div class="form-group">
+                                                    <strong>
+                                                        <label for="groupBy"> Group By </label>
+                                                    </strong>
+                                                    <select id="groupBy" name="groupBy">
+                                                        <option value="Type">Type</option>
+                                                        <option value="Year">Year</option>
+                                                        <option value="Experiments">Experiments</option>
+                                                        <option value="Installation">Installation</option>
+                                                    </select> 
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong>
+                                                        <label for="filter"> Filter by installation ? </label>
+                                                    </strong>
+                                                    <select id="filteredInstallation" name="filteredInstallation">
+                                                        <option value="FALSE">All</option>
+                                                    </select> 
+                                                    <br>
+                                                    Avaliable installations:
+                                                    <br>
+                                                    {{INST[0]}}
+                                                </div>
+                                                <!-- submit -->
+                                                <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
+                                                    Show BarPlot!
+                                                </button>
+                                                <div class="embed-responsive embed-responsive-16by9" >
+                                                        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                                    </div>
+                                    </div>
+                                    <div v-if="tabs.activetab === 2" class="tabcontent">
+                                            <div id="BarPlot">
+                                                    <!-- parameterOfInterest -->
+                                                <div class="form-group">
+                                                    <br>
+                                                    <strong>
+                                                        <label for="parameterOfInterest"> Parameter of interest </label>
+                                                    </strong>
+                                                    <select id="parameterOfInterest" name="parameterOfInterest">
+                                                        <option value="Type">Type</option>
+                                                        <option value="Year">Year</option>
+                                                        <option value="Experiments">Experiments</option>
+                                                        <option value="Installation">Installation</option>
+                                                    </select> 
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong>
+                                                        <label for="filter"> Filter by installation ? </label>
+                                                    </strong>
+                                                    <select id="filteredInstallation" name="filteredInstallation">
+                                                        <option value="FALSE">All</option>
+                                                    </select> 
+                                                    <br>
+                                                    Avaliable installations:
+                                                    <br>
+                                                    {{INST[0]}}
+                                                </div>
+                                                <!-- submit -->
+                                                <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showpieChart">
+                                                        Show PieChart!
+                                                    </button>
+                                                    <div class="embed-responsive embed-responsive-16by9" >
+                                                            <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                                        </div>
+                                    </div>
+                                    <div v-if="tabs.activetab === 3" class="tabcontent">
+                                            <div class="embed-responsive embed-responsive-16by9" >
+                                                    <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                                </div>
+                                    </div>
+                                </div>
+                              
+                            </div>
                                         <hr>
                                     </div>
                 </form>
@@ -83,9 +139,7 @@
     </div>
     
     <!-- plotDiv -->
-    <div class="embed-responsive embed-responsive-16by9" >
-        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
-    </div>
+
     <!-- vue.JS -->
     <script src="js/vue.js"></script>
     <!-- jquery -->
@@ -93,14 +147,17 @@
     <script href="inst/www/js/jquery-ui.js"></script>
     <!-- tether-->
     <script src="js/tether.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
+    <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/select2.min.js"></script>
+    <!-- Angular -->
+    <script src="js/angular.min.js"></script>
     <!-- opencpu client -->
     <script src="js/opencpu-0.5.js"></script>
     <script src="ts/tabset-config.ts"></script>
     <!-- user script -->
     <script src="js/appVue.js"></script>
+    <script src="js/tabsVue.js"></script>
     
 </body>
 </html>
