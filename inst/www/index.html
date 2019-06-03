@@ -30,96 +30,53 @@
                 <!-- form -->
                 Explore the different instances of PHIS currently running. This tool focuses on Scientific Objects and gives some interactive ways of visualizing it. 
                 <form role="form" >
-                        <ngb-tabset>
-                            <ngb-tab title="barPlot">
-                                <ng-template ngbTabContent>
-                                        <div id="inputForm" id="barPlot" class="tabcontent" >
-                                                <!-- parameterOfInterest -->
-                                                <div class="form-group">
-                                                    <br>
-                                                    <strong>
-                                                        <label for="parameterOfInterest"> Parameter of interest </label>
-                                                    </strong>
-                                                    <select id="parameterOfInterest" name="parameterOfInterest">
-                                                        <option value="Type">Type</option>
-                                                        <option value="Year">Year</option>
-                                                        <option value="Experiments">Experiments</option>
-                                                        <option value="Installation">Installation</option>
-                                                    </select> 
-                                                </div>
-                                                <!-- groupBy -->
-                                                <div class="form-group">
-                                                    <strong>
-                                                        <label for="groupBy"> Group By </label>
-                                                    </strong>
-                                                    <select id="groupBy" name="groupBy">
-                                                        <option value="Type">Type</option>
-                                                        <option value="Year">Year</option>
-                                                        <option value="Experiments">Experiments</option>
-                                                        <option value="Installation">Installation</option>
-                                                    </select> 
-                                                </div>
-                                                <div class="form-group">
-                                                        <strong>
-                                                                <label for="filter"> Filter by installation ? </label>
-                                                        </strong>
-                                                    <select id="filteredInstallation" name="filteredInstallation">
-                                                        <option value="FALSE">All</option>
-                                                    </select> 
-                                                    <br>
-                                                    Avaliable installations:
-                                                    <br>
-                                                    {{INST[0]}}
-                                                </div>
-                                                <!-- submit -->
-                                                <div class="form-group"></div>
-                                                <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
-                                                    Show graph!
-                                                </button>
-                                                <hr>
+                                    <div id="BarPlot">
+                                            <!-- parameterOfInterest -->
+                                        <div class="form-group">
+                                            <br>
+                                            <strong>
+                                                <label for="parameterOfInterest"> Parameter of interest </label>
+                                            </strong>
+                                            <select id="parameterOfInterest" name="parameterOfInterest">
+                                                <option value="Type">Type</option>
+                                                <option value="Year">Year</option>
+                                                <option value="Experiments">Experiments</option>
+                                                <option value="Installation">Installation</option>
+                                            </select> 
                                         </div>
-                                </ng-template>
-                            </ngb-tab>
-
-                            <ngb-tab title="pieChart">
-                                <ng-template ngbTabContent>
-                                    <div id="inputForm" id="pieChart" class="tabcontent">
-                                                <!-- parameterOfInterest -->
-                                                <div class="form-group">
-                                                    <br>
-                                                    <strong>
-                                                        <label for="parameterOfInterest"> Parameter of interest </label>
-                                                    </strong>
-                                                    <select id="pieparameterOfInterest" name="parameterOfInterest">
-                                                        <option value="Type">Type</option>
-                                                        <option value="Year">Year</option>
-                                                        <option value="Experiments">Experiments</option>
-                                                        <option value="Installation">Installation</option>
-                                                    </select> 
-                                                </div>
-                                                <!-- groupBy -->
-                                                <div class="form-group">
-                                                        <strong>
-                                                                <label for="filter"> Filter by installation ? </label>
-                                                        </strong>
-                                                    <select id="piefilteredInstallation" name="filteredInstallation">
-                                                        <option value="FALSE">All</option>
-                                                    </select> 
-                                                    <br>
-                                                    Avaliable installations:
-                                                    <br>
-                                                    {{INST[0]}}
-                                                </div>
-                                                <!-- submit -->
-                                                <div class="form-group"></div>
-                                                <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showpieChart">
-                                                    Show graph!
-                                                </button>
-                                                <hr>
+                                        <!-- groupBy -->
+                                        <div class="form-group">
+                                            <strong>
+                                                <label for="groupBy"> Group By </label>
+                                            </strong>
+                                            <select id="groupBy" name="groupBy">
+                                                <option value="Type">Type</option>
+                                                <option value="Year">Year</option>
+                                                <option value="Experiments">Experiments</option>
+                                                <option value="Installation">Installation</option>
+                                            </select> 
+                                        </div>
+                                        <div class="form-group">
+                                            <strong>
+                                                <label for="filter"> Filter by installation ? </label>
+                                            </strong>
+                                            <select id="filteredInstallation" name="filteredInstallation">
+                                                <option value="FALSE">All</option>
+                                            </select> 
+                                            <br>
+                                            Avaliable installations:
+                                            <br>
+                                            {{INST[0]}}
+                                        </div>
+                                        <!-- submit -->
+                                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
+                                            Show BarPlot!
+                                        </button>
+                                        <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showpieChart">
+                                            Show PieChart!
+                                        </button>
+                                        <hr>
                                     </div>
-                                </ng-template>
-                            </ngb-tab>
-                        </ngb-tabset>                    
                 </form>
             </div>
         </div>
@@ -127,7 +84,7 @@
     
     <!-- plotDiv -->
     <div class="embed-responsive embed-responsive-16by9" >
-        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:60%"></iframe>
+        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
     </div>
     <!-- vue.JS -->
     <script src="js/vue.js"></script>
