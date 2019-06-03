@@ -5,8 +5,8 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ["OpensilexDemo","Agrophen","Pheno3C","Phenovia","PhenoField","Ephesia"],
-      api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
+      name: ["OpensilexDemo","Pheno3C","Phenovia","PhenoField","Ephesia"],
+      api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
       RfunctionName: "installationTable"
     },
     collectedData:{
@@ -19,8 +19,17 @@ var App = new Vue({
         functionName: "barplotGraph",
         barplotGraphParameters: {
           filterBy: "filteredInstallation",
-          print: "FALSE"
-    },
+          print: "FALSE",
+          parameterOfInterest: "parameterOfInterest",
+          filteredInstallation: "filteredInstallation",
+          groupBy: "groupBy"
+        },
+        functionPieGraph: "pieGraph",
+        pieChartParameters: {
+          print: "FALSE",
+          parameterOfInterest: "pieparameterOfInterest",
+          filteredInstallation: "piefilteredInstallation"
+        },
         outputName: "Graph.png"
     },
 
@@ -88,7 +97,7 @@ var App = new Vue({
           }
         ).fail(function(request) {
           $("#cssLoader").removeClass("is-active");
-          alert("Error: ");
+          alert("Error: "+ request.responseText);
         });
     },
     collectData: function(){
@@ -115,16 +124,16 @@ var App = new Vue({
           }
         ).fail(function(request) {
           $("#cssLoader").removeClass("is-active");
-          alert("Error: ");
+          alert("Error: "+ request.responseText);
         });
     },
-    showGraph: function(){
+    showbarGraph: function(){
         $("#cssLoader").addClass("is-active");
         var self = this;
         // Run the R function
-        var parameterOfInterest = $("#parameterOfInterest").val();
-        var filteredInstallation =$("#filteredInstallation").val();
-        var groupBy = $("#groupBy").val();
+        var parameterOfInterest = $("#"+self.graphParameters.barplotGraphParameters.parameterOfInterest).val();
+        var filteredInstallation =$("#"+self.graphParameters.barplotGraphParameters.filteredInstallation).val();
+        var groupBy = $("#"+self.graphParameters.barplotGraphParameters.groupBy).val();
         var outputName = this.graphParameters.outputName;
         var iframeInput = this.graphParameters.iframeInput;
         return(req = $(iframeInput).rplot(
@@ -149,6 +158,36 @@ var App = new Vue({
             alert("An unknown error has append : " + request.responseText);
           })
         );
-    }
+    },
+    showpieChart: function(){
+      $("#cssLoader").addClass("is-active");
+      var self = this;
+      // Run the R function
+      var parameterOfInterest = $("#"+self.graphParameters.barplotGraphParameters.parameterOfInterest).val();
+      var filteredInstallation =$("#"+self.graphParameters.barplotGraphParameters.filteredInstallation).val();
+      var outputName = this.graphParameters.outputName;
+      var iframeInput = this.graphParameters.iframeInput;
+      return(req = $(iframeInput).rplot(
+        self.graphParameters.functionPieGraph,
+          {
+            collectData: self.collectedData.computedDF,
+            parameterOfInterest: parameterOfInterest,
+            filteredInstallation: filteredInstallation,
+            print: self.graphParameters.barplotGraphParameters.print
+          },
+          function(session) {
+          $("#" + iframeInput).attr(
+            "src",
+            session.getFileURL(outputName)
+          );
+          $("#submit").removeAttr("disabled");
+          $("#cssLoader").removeClass("is-active");
+        }).fail(function(request) {
+          $("#submit").removeAttr("disabled");
+          $("#cssLoader").removeClass("is-active");
+          alert("An unknown error has append : " + request.responseText);
+        })
+      );
+  }
   }
 })

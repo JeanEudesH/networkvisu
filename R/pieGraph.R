@@ -12,6 +12,7 @@
 #' @import stringr
 #' @param collectData data of rdf Type from \code{\link{collectData}} function
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
+#' @param filteredInstallation name of the installation to focus on
 #' @param print boolean, either to print or save the image
 #' @return piechart of scientific objects colored by the argument.
 #' @export
@@ -25,7 +26,16 @@
 #' DATA = collectData(INST)
 #' pieGraph(DATA, parameterOfInterest = "Type")
 #' }
-pieGraph = function(collectData, parameterOfInterest, print = T){
+pieGraph = function(collectData, parameterOfInterest, filteredInstallation = FALSE, print = T){
+  ##---- DATA
+  if(!is.data.frame(collectData)){
+    collectData = fromJSON(collectData)
+  }
+  if(filteredInstallation != FALSE){
+    collectData = collectData%>%
+      filter( Installation == filteredInstallation)
+  }
+
   count.data <- collectData %>%
     group_by(Installation, Type, Year, Experiments)%>%
     count()%>%
