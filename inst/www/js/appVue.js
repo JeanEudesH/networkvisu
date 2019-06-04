@@ -5,7 +5,7 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ["OpensilexDemo","Pheno3C","Phenovia","PhenoField","Ephesia"],
+      name: ['OpensilexDemo','Pheno3C','Phenovia','PhenoField','Ephesia'],
       api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
       RfunctionName: "installationTable"
     },
@@ -45,18 +45,6 @@ var App = new Vue({
     
    },
   methods: {
-    initialize: function (){
-        if ($("#name").length != 0) {
-          this.wsParams.name = $("#name").val();
-        } else {
-          this.wsParams.name = this.wsParams.params.get("name");
-        }
-        if ($("#api").length != 0) {
-          this.wsParams.api = $("#api").val();
-        } else {
-          this.wsParams.api = this.wsParams.params.get("api");
-        }
-    },
     fillListInput: function(inputId, inputList){
       inputData = [];
       inputList.forEach(function(inputItem) {
@@ -163,8 +151,8 @@ var App = new Vue({
       $("#cssLoader").addClass("is-active");
       var self = this;
       // Run the R function
-      var parameterOfInterest = $("#"+self.graphParameters.barplotGraphParameters.parameterOfInterest).val();
-      var filteredInstallation =$("#"+self.graphParameters.barplotGraphParameters.filteredInstallation).val();
+      var parameterOfInterest = $("#"+self.graphParameters.pieChartParameters.parameterOfInterest).val();
+      var filteredInstallation =$("#"+self.graphParameters.pieChartParameters.filteredInstallation).val();
       var outputName = this.graphParameters.outputName;
       var iframeInput = this.graphParameters.iframeInput;
       return(req = $(iframeInput).rplot(
@@ -173,7 +161,7 @@ var App = new Vue({
             collectData: self.collectedData.computedDF,
             parameterOfInterest: parameterOfInterest,
             filteredInstallation: filteredInstallation,
-            print: self.graphParameters.barplotGraphParameters.print
+            print: self.graphParameters.pieChartParameters.print
           },
           function(session) {
           $("#" + iframeInput).attr(

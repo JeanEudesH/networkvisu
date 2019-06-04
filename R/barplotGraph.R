@@ -47,7 +47,8 @@ barplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = 
     labs(x = paste(parameterOfInterest)) + 
     labs(y = "Number of Scientific Objects") + 
     labs(fill = groupBy) +
-    labs(title = paste("Number of Scientific Objects per", parameterOfInterest), subtitle = paste("Colored by", groupBy))
+    labs(title = paste("Number of Scientific Objects per", parameterOfInterest), subtitle = paste("Colored by", groupBy))+
+    coord_flip()
   if(print == TRUE){
     g1  
   }else{

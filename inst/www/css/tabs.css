@@ -6,12 +6,12 @@
 }
 
 .container {  
-    max-width: 620px; 
+    max-width: 1820px; 
     min-width: 420px;
     margin: 40px auto;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.9em;
-    color: #888;
+    color: rgb(20, 20, 20);
 }
 
 /* Style the tabs */
