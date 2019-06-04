@@ -36,6 +36,7 @@
                                 <a v-on:click="tabs.activetab=1" v-bind:class="[ tabs.activetab === 1 ? 'active' : '' ]">Barplot</a>
                                 <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Piechart</a>
                                 <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Treemap</a>
+                                <a v-on:click="tabs.activetab=4" v-bind:class="[ tabs.activetab === 4 ? 'active' : '' ]">Boxplot</a>
                             </div>
                          
                             <div class="content">
@@ -132,6 +133,44 @@
                                         <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                     </div>
                                 </div>
+
+                                <div v-if="tabs.activetab === 4" class="tabcontent">
+                                        <div id="boxplot">
+                                                <!-- parameterOfInterest -->
+                                            <div class="form-group">
+                                                <br>
+                                                <strong>
+                                                    <label for="parameterOfInterest"> Parameter of interest </label>
+                                                </strong>
+                                                <select id="boxparameterOfInterest" name="parameterOfInterest">
+                                                    <option value="Type">Type</option>
+                                                    <option value="Year">Year</option>
+                                                    <option value="Experiments">Experiments</option>
+                                                    <option value="Installation">Installation</option>
+                                                </select> 
+                                            </div>
+                                            <div class="form-group">
+                                                <strong>
+                                                    <label for="filter"> Filter by installation ? </label>
+                                                </strong>
+                                                <select id="boxfilteredInstallation" name="filteredInstallation">
+                                                    <option value="FALSE">All</option>
+                                                </select> 
+                                                <br>
+                                                Avaliable installations:
+                                                <br>
+                                                {{INST[0]}}
+                                            </div>
+                                            <!-- submit -->
+                                            <button id="submitbox" type="submit" class="btn btn-primary" v-on:click.prevent="showboxplot">
+                                                    Show boxplot!
+                                            </button>
+                                            <div class="embed-responsive embed-responsive-16by9" >
+                                                <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                            </div>
+                                        </div>
+                            </div>
+
                             </div>
                             <hr>
                     </div>

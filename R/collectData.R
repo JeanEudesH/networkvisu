@@ -9,6 +9,7 @@
 #' @import dplyr
 #' @import phisWSClientR
 #' @import stringr
+#' @import jsonlite
 #' @param inst informations of the installations from \code{\link{installationTable}}
 #' @param instancesNames the name of the installation(s)
 #' @param instancesApi the address of the REST API of the installation(s)
@@ -28,8 +29,8 @@ collectData = function(inst=NULL, instancesNames, instancesApi){
    if(is.null(inst)){
     inst = data.frame(name = instancesNames, api=instancesApi)
   }else{
-    if(is.data.frame(inst)!=TRUE){
-      inst = data.frame(inst)
+    if(!is.data.frame(inst)){
+      inst = from_JSON(inst)
     }
   }
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){

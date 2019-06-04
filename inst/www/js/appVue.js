@@ -16,21 +16,27 @@ var App = new Vue({
     },
     graphParameters: {
         iframeInput: "plotDiv",
-        functionName: "barplotGraph",
-        barplotGraphParameters: {
+        outputName: "Graph.png",
+        barplot: {
+          functionName: "barplotGraph",
           filterBy: "filteredInstallation",
           print: "FALSE",
           parameterOfInterest: "parameterOfInterest",
           filteredInstallation: "filteredInstallation",
           groupBy: "groupBy"
         },
-        functionPieGraph: "pieGraph",
-        pieChartParameters: {
+        piechart: {
+          functionName: "pieGraph",
           print: "FALSE",
           parameterOfInterest: "pieparameterOfInterest",
           filteredInstallation: "piefilteredInstallation"
         },
-        outputName: "Graph.png"
+        boxplot: {
+          functionName: "boxplotGraph",
+          print: "FALSE",
+          parameterOfInterest: "boxparameterOfInterest",
+          filteredInstallation: "boxfilteredInstallation"
+        }
     },
     tabs: { activetab: 1 }
   },
@@ -40,7 +46,7 @@ var App = new Vue({
     }
   },
   mounted:function(){
-    this.fillListInput(inputId = this.graphParameters.barplotGraphParameters.filterBy ,inputList = this.wsParams.name);
+    this.fillListInput(inputId = this.graphParameters.barplot.filterBy ,inputList = this.wsParams.name);
     this.collectData() ;
     
    },
@@ -101,8 +107,9 @@ var App = new Vue({
           self.collectedData.functionName,
           // list of arguments names and value
           {
-            instancesNames: self.wsParams.name,
-            instancesApi: self.wsParams.api
+            inst: self.INST
+/*             instancesNames: self.wsParams.name,
+            instancesApi: self.wsParams.api */
           },
       
           function(output) {
@@ -119,19 +126,19 @@ var App = new Vue({
         $("#cssLoader").addClass("is-active");
         var self = this;
         // Run the R function
-        var parameterOfInterest = $("#"+self.graphParameters.barplotGraphParameters.parameterOfInterest).val();
-        var filteredInstallation =$("#"+self.graphParameters.barplotGraphParameters.filteredInstallation).val();
-        var groupBy = $("#"+self.graphParameters.barplotGraphParameters.groupBy).val();
+        var parameterOfInterest = $("#"+self.graphParameters.barplot.parameterOfInterest).val();
+        var filteredInstallation =$("#"+self.graphParameters.barplot.filteredInstallation).val();
+        var groupBy = $("#"+self.graphParameters.barplot.groupBy).val();
         var outputName = this.graphParameters.outputName;
         var iframeInput = this.graphParameters.iframeInput;
         return(req = $(iframeInput).rplot(
-          self.graphParameters.functionName,
+          self.graphParameters.barplot.functionName,
             {
               computedDF: self.collectedData.computedDF,
               parameterOfInterest: parameterOfInterest,
               filteredInstallation: filteredInstallation,
               groupBy: groupBy,
-              print: self.graphParameters.barplotGraphParameters.print
+              print: self.graphParameters.barplot.print
             },
             function(session) {
             $("#" + iframeInput).attr(
@@ -151,17 +158,17 @@ var App = new Vue({
       $("#cssLoader").addClass("is-active");
       var self = this;
       // Run the R function
-      var parameterOfInterest = $("#"+self.graphParameters.pieChartParameters.parameterOfInterest).val();
-      var filteredInstallation =$("#"+self.graphParameters.pieChartParameters.filteredInstallation).val();
+      var parameterOfInterest = $("#"+self.graphParameters.piechart.parameterOfInterest).val();
+      var filteredInstallation =$("#"+self.graphParameters.piechart.filteredInstallation).val();
       var outputName = this.graphParameters.outputName;
       var iframeInput = this.graphParameters.iframeInput;
       return(req = $(iframeInput).rplot(
-        self.graphParameters.functionPieGraph,
+        self.graphParameters.piechart.functionName,
           {
             collectData: self.collectedData.computedDF,
             parameterOfInterest: parameterOfInterest,
             filteredInstallation: filteredInstallation,
-            print: self.graphParameters.pieChartParameters.print
+            print: self.graphParameters.piechart.print
           },
           function(session) {
           $("#" + iframeInput).attr(
@@ -176,6 +183,36 @@ var App = new Vue({
           alert("An unknown error has append : " + request.responseText);
         })
       );
-  }
+  },
+  showboxplot: function(){
+    $("#cssLoader").addClass("is-active");
+    var self = this;
+    // Run the R function
+    var parameterOfInterest = $("#"+self.graphParameters.boxplot.parameterOfInterest).val();
+    var filteredInstallation =$("#"+self.graphParameters.boxplot.filteredInstallation).val();
+    var outputName = this.graphParameters.outputName;
+    var iframeInput = this.graphParameters.iframeInput;
+    return(req = $(iframeInput).rplot(
+      self.graphParameters.boxplot.functionName,
+        {
+          computedDF: self.collectedData.computedDF,
+          parameterOfInterest: parameterOfInterest,
+          filteredInstallation: filteredInstallation,
+          print: self.graphParameters.boxplot.print
+        },
+        function(session) {
+        $("#" + iframeInput).attr(
+          "src",
+          session.getFileURL(outputName)
+        );
+        $("#submit").removeAttr("disabled");
+        $("#cssLoader").removeClass("is-active");
+      }).fail(function(request) {
+        $("#submit").removeAttr("disabled");
+        $("#cssLoader").removeClass("is-active");
+        alert("An unknown error has append : " + request.responseText);
+      })
+    );
+}
   }
 })

@@ -141,6 +141,8 @@ barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Year")
 barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments")
 barplotGraph(DATA, parameterOfInterest = "Type", groupBy = "Experiments", filteredInstallation = "diaphen")
 
+boxplotGraph(DATA, parameterOfInterest = "Installation")
+
 pieGraph(DATA, parameterOfInterest = "Type")
 
 
