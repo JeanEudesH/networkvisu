@@ -5,7 +5,7 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ["OpensilexDemo","Pheno3C","Phenovia","PhenoField","Ephesia"],
+      name: ['OpensilexDemo','Pheno3C','Phenovia','PhenoField','Ephesia'],
       api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
       RfunctionName: "installationTable"
     },
@@ -16,47 +16,44 @@ var App = new Vue({
     },
     graphParameters: {
         iframeInput: "plotDiv",
-        functionName: "barplotGraph",
-        barplotGraphParameters: {
+        outputName: "Graph.png",
+        barplot: {
+          functionName: "barplotGraph",
           filterBy: "filteredInstallation",
           print: "FALSE",
           parameterOfInterest: "parameterOfInterest",
           filteredInstallation: "filteredInstallation",
           groupBy: "groupBy"
         },
-        functionPieGraph: "pieGraph",
-        pieChartParameters: {
+        piechart: {
+          functionName: "pieGraph",
           print: "FALSE",
           parameterOfInterest: "pieparameterOfInterest",
           filteredInstallation: "piefilteredInstallation"
         },
-        outputName: "Graph.png"
+        boxplot: {
+          functionName: "boxplotGraph",
+          print: "FALSE",
+          parameterOfInterest: "boxparameterOfInterest",
+          filteredInstallation: "boxfilteredInstallation"
+        }
     },
-
+    tabs: { activetab: 1 }
   },
   computed: {
     INST: function () {
-      return [{name: this.wsParams.name} , {api: this.wsParams.api}]
+      var inst = [];
+      for (var j = 0; j < this.wsParams.name.length; j++){
+        inst[j] = {name: this.wsParams.name[j], api: this.wsParams.api[j]}
+      }
+      return inst
     }
   },
   mounted:function(){
-    this.fillListInput(inputId = this.graphParameters.barplotGraphParameters.filterBy ,inputList = this.wsParams.name);
+    this.fillListInput(inputId = this.graphParameters.barplot.filterBy ,inputList = this.wsParams.name);
     this.collectData() ;
-    
    },
   methods: {
-    initialize: function (){
-        if ($("#name").length != 0) {
-          this.wsParams.name = $("#name").val();
-        } else {
-          this.wsParams.name = this.wsParams.params.get("name");
-        }
-        if ($("#api").length != 0) {
-          this.wsParams.api = $("#api").val();
-        } else {
-          this.wsParams.api = this.wsParams.params.get("api");
-        }
-    },
     fillListInput: function(inputId, inputList){
       inputData = [];
       inputList.forEach(function(inputItem) {
@@ -90,18 +87,18 @@ var App = new Vue({
           },
       
           function(output) {
-            $("#cssLoader").removeClass("is-active");
+            //$("#cssLoader").removeClass("is-active");
             self.collectedData.INST = output
 
             return output;
           }
         ).fail(function(request) {
-          $("#cssLoader").removeClass("is-active");
+          //$("#cssLoader").removeClass("is-active");
           alert("Error: "+ request.responseText);
         });
     },
     collectData: function(){
-        $("#cssLoader").addClass("is-active");
+        document.getElementById("spinner").style.visibility = "visible"; 
         var self = this;
         self.installationTable()
         // Fill variables
@@ -113,13 +110,14 @@ var App = new Vue({
           self.collectedData.functionName,
           // list of arguments names and value
           {
-            instancesNames: self.wsParams.name,
-            instancesApi: self.wsParams.api
+            inst: self.INST
+/*             instancesNames: self.wsParams.name,
+            instancesApi: self.wsParams.api */
           },
       
           function(output) {
-            $("#cssLoader").removeClass("is-active");
             self.collectedData.computedDF = output
+            document.getElementById("spinner").style.visibility = "hidden"; 
             return output;
           }
         ).fail(function(request) {
@@ -131,19 +129,19 @@ var App = new Vue({
         $("#cssLoader").addClass("is-active");
         var self = this;
         // Run the R function
-        var parameterOfInterest = $("#"+self.graphParameters.barplotGraphParameters.parameterOfInterest).val();
-        var filteredInstallation =$("#"+self.graphParameters.barplotGraphParameters.filteredInstallation).val();
-        var groupBy = $("#"+self.graphParameters.barplotGraphParameters.groupBy).val();
+        var parameterOfInterest = $("#"+self.graphParameters.barplot.parameterOfInterest).val();
+        var filteredInstallation =$("#"+self.graphParameters.barplot.filteredInstallation).val();
+        var groupBy = $("#"+self.graphParameters.barplot.groupBy).val();
         var outputName = this.graphParameters.outputName;
         var iframeInput = this.graphParameters.iframeInput;
         return(req = $(iframeInput).rplot(
-          self.graphParameters.functionName,
+          self.graphParameters.barplot.functionName,
             {
               computedDF: self.collectedData.computedDF,
               parameterOfInterest: parameterOfInterest,
               filteredInstallation: filteredInstallation,
               groupBy: groupBy,
-              print: self.graphParameters.barplotGraphParameters.print
+              print: self.graphParameters.barplot.print
             },
             function(session) {
             $("#" + iframeInput).attr(
@@ -163,17 +161,17 @@ var App = new Vue({
       $("#cssLoader").addClass("is-active");
       var self = this;
       // Run the R function
-      var parameterOfInterest = $("#"+self.graphParameters.barplotGraphParameters.parameterOfInterest).val();
-      var filteredInstallation =$("#"+self.graphParameters.barplotGraphParameters.filteredInstallation).val();
+      var parameterOfInterest = $("#"+self.graphParameters.piechart.parameterOfInterest).val();
+      var filteredInstallation =$("#"+self.graphParameters.piechart.filteredInstallation).val();
       var outputName = this.graphParameters.outputName;
       var iframeInput = this.graphParameters.iframeInput;
       return(req = $(iframeInput).rplot(
-        self.graphParameters.functionPieGraph,
+        self.graphParameters.piechart.functionName,
           {
-            collectData: self.collectedData.computedDF,
+            computedDF: self.collectedData.computedDF,
             parameterOfInterest: parameterOfInterest,
             filteredInstallation: filteredInstallation,
-            print: self.graphParameters.barplotGraphParameters.print
+            print: self.graphParameters.piechart.print
           },
           function(session) {
           $("#" + iframeInput).attr(
@@ -188,6 +186,36 @@ var App = new Vue({
           alert("An unknown error has append : " + request.responseText);
         })
       );
-  }
+  },
+  showboxplot: function(){
+    $("#cssLoader").addClass("is-active");
+    var self = this;
+    // Run the R function
+    var parameterOfInterest = $("#"+self.graphParameters.boxplot.parameterOfInterest).val();
+    var filteredInstallation =$("#"+self.graphParameters.boxplot.filteredInstallation).val();
+    var outputName = this.graphParameters.outputName;
+    var iframeInput = this.graphParameters.iframeInput;
+    return(req = $(iframeInput).rplot(
+      self.graphParameters.boxplot.functionName,
+        {
+          computedDF: self.collectedData.computedDF,
+          parameterOfInterest: parameterOfInterest,
+          filteredInstallation: filteredInstallation,
+          print: self.graphParameters.boxplot.print
+        },
+        function(session) {
+        $("#" + iframeInput).attr(
+          "src",
+          session.getFileURL(outputName)
+        );
+        $("#submit").removeAttr("disabled");
+        $("#cssLoader").removeClass("is-active");
+      }).fail(function(request) {
+        $("#submit").removeAttr("disabled");
+        $("#cssLoader").removeClass("is-active");
+        alert("An unknown error has append : " + request.responseText);
+      })
+    );
+}
   }
 })

@@ -4,11 +4,11 @@
 \alias{pieGraph}
 \title{create a piechart to vizualize scientific object across the network}
 \usage{
-pieGraph(collectData, parameterOfInterest, filteredInstallation = FALSE,
+pieGraph(computedDF, parameterOfInterest, filteredInstallation = FALSE,
   print = T)
 }
 \arguments{
-\item{collectData}{data of rdf Type from \code{\link{collectData}} function}
+\item{computedDF}{data of rdf Type from \code{\link{collectData}} function}
 
 \item{parameterOfInterest}{variable to perform the decomposition (can be Installation, Type, Year, Experiments)}
 

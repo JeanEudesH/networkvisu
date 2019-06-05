@@ -10,7 +10,7 @@
 #' @import phisWSClientR
 #' @import ggplot2
 #' @import stringr
-#' @param collectData data of rdf Type from \code{\link{collectData}} function
+#' @param computedDF data of rdf Type from \code{\link{collectData}} function
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
 #' @param filteredInstallation name of the installation to focus on
 #' @param print boolean, either to print or save the image
@@ -26,17 +26,17 @@
 #' DATA = collectData(INST)
 #' pieGraph(DATA, parameterOfInterest = "Type")
 #' }
-pieGraph = function(collectData, parameterOfInterest, filteredInstallation = FALSE, print = T){
+pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE, print = T){
   ##---- DATA
-  if(!is.data.frame(collectData)){
-    collectData = fromJSON(collectData)
+  if(!is.data.frame(computedDF)){
+    computedDF = fromJSON(computedDF)
   }
   if(filteredInstallation != FALSE){
-    collectData = collectData%>%
+    computedDF = computedDF%>%
       filter( Installation == filteredInstallation)
   }
 
-  count.data <- collectData %>%
+  count.data <- computedDF %>%
     group_by(Installation, Type, Year, Experiments)%>%
     count()%>%
     dplyr::group_by(eval(parse(text = parameterOfInterest)))%>%
