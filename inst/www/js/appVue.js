@@ -42,13 +42,16 @@ var App = new Vue({
   },
   computed: {
     INST: function () {
-      return [{name: this.wsParams.name} , {api: this.wsParams.api}]
+      var inst = [];
+      for (var j = 0; j < this.wsParams.name.length; j++){
+        inst[j] = {name: this.wsParams.name[j], api: this.wsParams.api[j]}
+      }
+      return inst
     }
   },
   mounted:function(){
     this.fillListInput(inputId = this.graphParameters.barplot.filterBy ,inputList = this.wsParams.name);
     this.collectData() ;
-    
    },
   methods: {
     fillListInput: function(inputId, inputList){
@@ -84,18 +87,18 @@ var App = new Vue({
           },
       
           function(output) {
-            $("#cssLoader").removeClass("is-active");
+            //$("#cssLoader").removeClass("is-active");
             self.collectedData.INST = output
 
             return output;
           }
         ).fail(function(request) {
-          $("#cssLoader").removeClass("is-active");
+          //$("#cssLoader").removeClass("is-active");
           alert("Error: "+ request.responseText);
         });
     },
     collectData: function(){
-        $("#cssLoader").addClass("is-active");
+        document.getElementById("spinner").style.visibility = "visible"; 
         var self = this;
         self.installationTable()
         // Fill variables
@@ -113,8 +116,8 @@ var App = new Vue({
           },
       
           function(output) {
-            $("#cssLoader").removeClass("is-active");
             self.collectedData.computedDF = output
+            document.getElementById("spinner").style.visibility = "hidden"; 
             return output;
           }
         ).fail(function(request) {
@@ -165,7 +168,7 @@ var App = new Vue({
       return(req = $(iframeInput).rplot(
         self.graphParameters.piechart.functionName,
           {
-            collectData: self.collectedData.computedDF,
+            computedDF: self.collectedData.computedDF,
             parameterOfInterest: parameterOfInterest,
             filteredInstallation: filteredInstallation,
             print: self.graphParameters.piechart.print
