@@ -16,11 +16,11 @@ instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia"
 inst = data.frame(name = instancesNames, api = instancesApi)
 
 scientificObjectOverview = function(inst){
-  initializeClientConnection(apiID="ws_private", url = 'opensilex.org/openSilexAPI/rest/')
+  initializeClientConnection(apiID="ws_private", url = '147.100.175.121:8080/phenomeDiaphenAPI/rest/')
   aToken = getToken("guest@opensilex.org","guest")
   count <- getVariables2(aToken$data, pageSize = 1)$totalCount
   sensors <- getVariables2(aToken$data, pageSize = count)
-  wsQuery = sensors$data  
+  wsQuery = sensors$data
   
   count <- getExperiments2(aToken$data, pageSize = 1)$totalCount
   exp <- getExperiments2(aToken$data, pageSize = count)

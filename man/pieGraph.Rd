@@ -4,17 +4,14 @@
 \alias{pieGraph}
 \title{create a piechart to vizualize scientific object across the network}
 \usage{
-pieGraph(computedDF, parameterOfInterest, filteredInstallation = FALSE,
-  print = T)
+pieGraph(computedDF, parameterOfInterest, filteredInstallation = FALSE)
 }
 \arguments{
-\item{computedDF}{data of rdf Type from \code{\link{collectData}} function}
+\item{computedDF}{data of rdf Type from collectData (\code{\link{collectSensor}}, \code{\link{collectVariable}}, \code{\link{collectScientificObject}}) functions}
 
 \item{parameterOfInterest}{variable to perform the decomposition (can be Installation, Type, Year, Experiments)}
 
 \item{filteredInstallation}{name of the installation to focus on}
-
-\item{print}{boolean, either to print or save the image}
 }
 \value{
 piechart of scientific objects colored by the argument.

@@ -11,9 +11,8 @@
 #' @import ggplot2
 #' @import stringr
 #' @import jsonlite
-#' @param computedDF data of rdf Type from \code{\link{collectData}} function
+#' @param computedDF data of rdf Type from collectData (\code{\link{collectSensor}}, \code{\link{collectVariable}}, \code{\link{collectScientificObject}}) functions
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
-#' @param print boolean, either to print or save the image
 #' @param filteredInstallation FALSE if you don't want to filter on installations, or the name of the installation(s) (same as \code{\link{installationTable}})
 #' @return installation rdfType data
 #' @export
@@ -28,7 +27,7 @@
 #' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Experiments")
 #' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Type")
 #' }
-boxplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE, print = T){
+boxplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE){
   ##---- DATA
   if(!is.data.frame(computedDF)){
     computedDF = fromJSON(computedDF)
@@ -48,9 +47,8 @@ boxplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = 
     labs(fill = parameterOfInterest) +
     labs(title = paste("Number of Scientific Objects per", parameterOfInterest))+
     coord_flip()
-  if(print == TRUE){
     g1  
-  }else{
+ 
     ggsave(filename = "Graph.png", plot = g1)
-  }
+  
 }

@@ -10,6 +10,8 @@
     <!-- style -->
     <!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css"">
     <!-- select2 -->
@@ -71,7 +73,7 @@
                                                 <strong>
                                                     <label for="filter"> Filter by installation ? </label>
                                                 </strong>
-                                                <select id="filteredInstallation" name="filteredInstallation">
+                                                <select id="filteredInstallation" name="filteredInstallation"  multiple>
                                                     <option value="FALSE">All</option>
                                                 </select> 
                                                 <br>
@@ -84,6 +86,9 @@
                                             <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
                                                 Show BarPlot!
                                             </button>
+                                            <button v-on:click="" class="btn btn-primary"><i class="fa fa-download"></i> Download Graph</button>
+                                            <a href="Graph.png" download="proposed_file_name">Download</a>
+
                                             <div class="embed-responsive embed-responsive-16by9" >
                                                 <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                             </div>
@@ -110,7 +115,7 @@
                                                     <strong>
                                                         <label for="filter"> Filter by installation ? </label>
                                                     </strong>
-                                                    <select id="piefilteredInstallation" name="filteredInstallation">
+                                                    <select id="piefilteredInstallation" name="filteredInstallation"   config="multiple: true">
                                                         <option value="FALSE">All</option>
                                                     </select> 
                                                     <br>
@@ -154,7 +159,7 @@
                                                 <strong>
                                                     <label for="filter"> Filter by installation ? </label>
                                                 </strong>
-                                                <select id="boxfilteredInstallation" name="filteredInstallation">
+                                                <select id="boxfilteredInstallation" name="filteredInstallation"   config="multiple: true">
                                                     <option value="FALSE">All</option>
                                                 </select> 
                                                 <br>

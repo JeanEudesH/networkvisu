@@ -5,18 +5,16 @@
 \title{create a barplot with different point of view from computed Data}
 \usage{
 barplotGraph(computedDF, parameterOfInterest,
-  filteredInstallation = FALSE, groupBy = "Installation", print = T)
+  filteredInstallation = FALSE, groupBy = "Installation")
 }
 \arguments{
-\item{computedDF}{data of rdf Type from \code{\link{collectData}} function}
+\item{computedDF}{data of rdf Type from collectData (\code{\link{collectSensor}}, \code{\link{collectVariable}}, \code{\link{collectScientificObject}}) functions}
 
 \item{parameterOfInterest}{variable to perform the decomposition (can be Installation, Type, Year, Experiments)}
 
 \item{filteredInstallation}{FALSE if you don't want to filter on installations, or the name of the installation(s) (same as \code{\link{installationTable}})}
 
 \item{groupBy}{variable to groupBy and color can be (Installation, Type, Year, Experiments)}
-
-\item{print}{boolean, either to print or save the image}
 }
 \value{
 installation rdfType data

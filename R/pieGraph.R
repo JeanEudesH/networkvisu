@@ -10,10 +10,9 @@
 #' @import phisWSClientR
 #' @import ggplot2
 #' @import stringr
-#' @param computedDF data of rdf Type from \code{\link{collectData}} function
+#' @param computedDF data of rdf Type from collectData (\code{\link{collectSensor}}, \code{\link{collectVariable}}, \code{\link{collectScientificObject}}) functions
 #' @param parameterOfInterest variable to perform the decomposition (can be Installation, Type, Year, Experiments)
 #' @param filteredInstallation name of the installation to focus on
-#' @param print boolean, either to print or save the image
 #' @return piechart of scientific objects colored by the argument.
 #' @export
 #'
@@ -26,7 +25,7 @@
 #' DATA = collectData(INST)
 #' pieGraph(DATA, parameterOfInterest = "Type")
 #' }
-pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE, print = T){
+pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE){
   ##---- DATA
   if(!is.data.frame(computedDF)){
     computedDF = fromJSON(computedDF)
@@ -53,9 +52,7 @@ pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALS
     labs(fill = parameterOfInterest) +
     labs(title = "Proportion of Scientific Objects within the network")
   g4
-  if(print == TRUE){
     g4  
-  }else{
     ggsave(filename = "Graph.png", plot = g4)
-  }
+  
 }

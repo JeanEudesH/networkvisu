@@ -20,20 +20,17 @@ var App = new Vue({
         barplot: {
           functionName: "barplotGraph",
           filterBy: "filteredInstallation",
-          print: "FALSE",
           parameterOfInterest: "parameterOfInterest",
           filteredInstallation: "filteredInstallation",
           groupBy: "groupBy"
         },
         piechart: {
           functionName: "pieGraph",
-          print: "FALSE",
           parameterOfInterest: "pieparameterOfInterest",
           filteredInstallation: "piefilteredInstallation"
         },
         boxplot: {
           functionName: "boxplotGraph",
-          print: "FALSE",
           parameterOfInterest: "boxparameterOfInterest",
           filteredInstallation: "boxfilteredInstallation"
         }
@@ -140,8 +137,7 @@ var App = new Vue({
               computedDF: self.collectedData.computedDF,
               parameterOfInterest: parameterOfInterest,
               filteredInstallation: filteredInstallation,
-              groupBy: groupBy,
-              print: self.graphParameters.barplot.print
+              groupBy: groupBy
             },
             function(session) {
             $("#" + iframeInput).attr(
@@ -170,8 +166,7 @@ var App = new Vue({
           {
             computedDF: self.collectedData.computedDF,
             parameterOfInterest: parameterOfInterest,
-            filteredInstallation: filteredInstallation,
-            print: self.graphParameters.piechart.print
+            filteredInstallation: filteredInstallation
           },
           function(session) {
           $("#" + iframeInput).attr(
@@ -200,8 +195,7 @@ var App = new Vue({
         {
           computedDF: self.collectedData.computedDF,
           parameterOfInterest: parameterOfInterest,
-          filteredInstallation: filteredInstallation,
-          print: self.graphParameters.boxplot.print
+          filteredInstallation: filteredInstallation
         },
         function(session) {
         $("#" + iframeInput).attr(
