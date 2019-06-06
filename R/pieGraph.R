@@ -37,7 +37,7 @@ pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALS
   }
 
   count.data <- computedDF %>%
-    group_by(Installation, Type, Year, Experiments)%>%
+    group_by_all()%>%
     count()%>%
     dplyr::group_by(eval(parse(text = parameterOfInterest)))%>%
     summarise(total = sum(n))%>%

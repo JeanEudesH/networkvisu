@@ -39,7 +39,7 @@ barplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = 
       filter( Installation == filteredInstallation)
   }
   typeData = computedDF%>%
-    group_by(Installation, Type, Year, Experiments)%>%
+    group_by_all()%>%
     count()
   ##---- VIZ
   g1 = ggplot(data = typeData) +

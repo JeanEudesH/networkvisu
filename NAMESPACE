@@ -3,6 +3,7 @@
 export(barplotGraph)
 export(boxplotGraph)
 export(collectData)
+export(collectSensor)
 export(installationTable)
 export(pieGraph)
 import(dplyr)
