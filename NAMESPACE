@@ -2,8 +2,9 @@
 
 export(barplotGraph)
 export(boxplotGraph)
-export(collectData)
+export(collectScientificObject)
 export(collectSensor)
+export(collectVariable)
 export(installationTable)
 export(pieGraph)
 import(dplyr)

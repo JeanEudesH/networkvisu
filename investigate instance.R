@@ -16,17 +16,17 @@ instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia"
 inst = data.frame(name = instancesNames, api = instancesApi)
 
 scientificObjectOverview = function(inst){
-  initializeClientConnection(apiID="ws_private", url = '147.100.175.121:8080/phenomePhenofieldAPI/rest/')
+  initializeClientConnection(apiID="ws_private", url = 'opensilex.org/openSilexAPI/rest/')
   aToken = getToken("guest@opensilex.org","guest")
-  count <- getSensors(aToken$data, pageSize = 1)$totalCount
-  sensors <- getSensors(aToken$data, pageSize = count)
+  count <- getVariables2(aToken$data, pageSize = 1)$totalCount
+  sensors <- getVariables2(aToken$data, pageSize = count)
   wsQuery = sensors$data  
   
   count <- getExperiments2(aToken$data, pageSize = 1)$totalCount
   exp <- getExperiments2(aToken$data, pageSize = count)
-  wsQueryE = exp$data$sensors  
-  sensExp = data.frame(uri = colnames(wsQueryE), experiment =  exp$data$uri)
-  computedDF = full_join(sensExp, wsQuery, by="uri")
+  wsQueryV = exp$data$variables 
+  varsExp = data.frame(uri = colnames(wsQueryV), experiment =  exp$data$uri)
+  computedDF = full_join(varsExp, wsQuery, by="uri")
   
   computedDF = computedDF%>%
       select(rdfType, brand, experiment)%>%
@@ -101,6 +101,10 @@ DATA2 = DATA%>%
 
 SENSORS = collectSensor(INST)
 DATA2 = SENSORS%>%
+  group_by_all()%>%
+  count()
+VARS = collectVariable(INST)
+DATA2 = VARS%>%
   group_by_all()%>%
   count()
 

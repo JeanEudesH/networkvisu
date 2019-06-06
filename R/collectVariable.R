@@ -1,11 +1,11 @@
 #-------------------------------------------------------------------------------
-# Program: collectSensor
+# Program: collectVariable
 # Objective: collect data from the installations
 # Creation: 06/06/2019
 # Update:
 #-------------------------------------------------------------------------------
 
-#' @title collectSensor from the different installations
+#' @title collectVariable from the different installations
 #' @import dplyr
 #' @import phisWSClientR
 #' @import stringr
@@ -22,9 +22,9 @@
 #'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
 #'            instancesNames = c("opensilexDemo")
 #'        )
-#' DATA = collectSensor(INST)
+#' DATA = collectVariable(INST)
 #' }
-collectSensor = function(inst=NULL, instancesNames, instancesApi){
+collectVariable = function(inst=NULL, instancesNames, instancesApi){
   #Tests
   if(is.null(inst)){
     inst = data.frame(name = instancesNames, api=instancesApi)
@@ -36,23 +36,25 @@ collectSensor = function(inst=NULL, instancesNames, instancesApi){
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
     initializeClientConnection(apiID="ws_private", url = installation['api'])
     aToken = getToken("guest@opensilex.org","guest")
-    count <- getSensors(aToken$data, pageSize = 1)$totalCount
-    sensors <- getSensors(aToken$data, pageSize = count)
-    wsQuery = sensors$data  
-    
+    count <- getVariables2(aToken$data, pageSize = 1)$totalCount
+    vars <- getVariables2(aToken$data, pageSize = count)
+    wsQuery = vars$data  
+
     count <- getExperiments2(aToken$data, pageSize = 1)$totalCount
     exp <- getExperiments2(aToken$data, pageSize = count)
     wsQueryE = exp$data$sensors
-    sensExp = data.frame(uri = colnames(wsQueryE), experiment =  exp$data$uri)
+    varsExp = data.frame(uri = colnames(wsQueryE), experiment =  exp$data$uri)
     computedDF = full_join(sensExp, wsQuery, by="uri")
 
     computedDF = computedDF%>%
-      select(rdfType, brand)%>%
-      mutate(Type = str_sub(rdfType, start = str_locate(rdfType, pattern = "#")[,1]+1, end = str_locate(rdfType, pattern = "#")[,1]+16))%>%
+    
+    computedDF = wsQuery%>%
+      select(label)%>%
+      select(experiment, label)%>%
       mutate(Experiments = sapply(str_split(experiment, pattern = "/"), FUN = function(X){X[5]}))%>%
       mutate(Year = str_sub(experiment, start = str_locate(experiment, pattern = "20")[,1], end = str_locate(experiment, pattern = "20")[,2]+2))%>%
       mutate(Installation = installation['name'])%>%
-      select( -rdfType)
+      select( -experiment)
     return(computedDF)
   }
   )

@@ -1,11 +1,11 @@
 #-------------------------------------------------------------------------------
-# Program: collectData
+# Program: collectScientificObject
 # Objective: collect data from the installations
 # Creation: 24/05/2019
 # Update:
 #-------------------------------------------------------------------------------
 
-#' @title collectData from the different installations
+#' @title collectScientificObject from the different installations
 #' @import dplyr
 #' @import phisWSClientR
 #' @import stringr
@@ -22,9 +22,9 @@
 #'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
 #'            instancesNames = c("opensilexDemo")
 #'        )
-#' DATA = collectData(INST)
+#' DATA = collectScientificObject(INST)
 #' }
-collectData = function(inst=NULL, instancesNames, instancesApi){
+collectScientificObject = function(inst=NULL, instancesNames, instancesApi){
  #Tests
    if(is.null(inst)){
     inst = data.frame(name = instancesNames, api=instancesApi)

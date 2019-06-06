@@ -12,7 +12,7 @@ var App = new Vue({
     collectedData:{
       INST:[],
       computedDF:[],
-      functionName: "collectData"
+      functionName: "collectScientificObject"
     },
     graphParameters: {
         iframeInput: "plotDiv",
