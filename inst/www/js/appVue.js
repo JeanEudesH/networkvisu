@@ -1,12 +1,12 @@
 // comment out this line from development 
 //ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
-ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu");
+ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ['OpensilexDemo'],
-      api: ["147.100.175.121:8080/phenomePheno3cAPI/rest/"],
+      name: ["OpensilexDemo", "Agrophen", "Pheno3C"],
+      api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/"],
       RfunctionName: "installationTable"
     },
     collectedData:{

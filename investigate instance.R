@@ -87,14 +87,17 @@ source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/barplotGraph
 source('/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/pieGraph.R')
 
 INST = installationTable(instancesApi = c("opensilex.org/openSilexAPI/rest/"),
-                         instancesNames = c("opensilexDemo")
+                         instancesNames = c("OpensilexDemo")
  )
 # INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
-#                          instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
+#                          instancesNames = c("Diaphen", "OpensilexDemo", "Agrophen", "Pheno3C", "Phenovia", "PhenoField", "Ephesia")
 #  )
 
+system.time({
+  DATA = collectScientificObject(INST)  
+})
 
-DATA = collectScientificObject(INST)
+
 DATA2 = DATA%>%
   group_by(Installation, Type, Year, Experiments)%>%
   count()
