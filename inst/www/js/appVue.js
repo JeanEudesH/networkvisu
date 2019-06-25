@@ -5,8 +5,8 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ["OpensilexDemo", "Agrophen", "Pheno3C"],
-      api: ["opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/"],
+      name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
+      api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
       RfunctionName: "installationTable"
     },
     collectedData:{
