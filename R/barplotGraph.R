@@ -28,16 +28,16 @@
 #' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Experiments")
 #' barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Type")
 #' }
-barplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE, groupBy = "Installation"){
+barplotGraph <- function(computedDF, parameterOfInterest, filteredInstallation = FALSE, groupBy = "Installation"){
   ##---- DATA
   if(!is.data.frame(computedDF)){
-    computedDF = fromJSON(computedDF)
+    computedDF <- fromJSON(computedDF)
   }
   if(filteredInstallation != FALSE){
-    computedDF = computedDF%>%
+    computedDF <- computedDF%>%
       filter( Installation == filteredInstallation)
   }
-  typeData = computedDF%>%
+  typeData <- computedDF%>%
     group_by_all()%>%
     count()
   ##---- VIZ

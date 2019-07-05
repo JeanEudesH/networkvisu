@@ -48,7 +48,7 @@
                                             <div class="form-group">
                                                 <br>
                                                 <strong>
-                                                    <label for="parameterOfInterest"> Parameter of interest </label>
+                                                    <label> Parameter of interest </label>
                                                 </strong>
                                                 <select id="parameterOfInterest" name="parameterOfInterest">
                                                     <option value="Type">Type</option>
@@ -60,7 +60,7 @@
                                             <!-- groupBy -->
                                             <div class="form-group">
                                                 <strong>
-                                                    <label for="groupBy"> Group By </label>
+                                                    <label> Group By </label>
                                                 </strong>
                                                 <select id="groupBy" name="groupBy">
                                                     <option value="Type">Type</option>
@@ -71,15 +71,23 @@
                                             </div>
                                             <div class="form-group">
                                                 <strong>
-                                                    <label for="filter"> Filter by installation ? </label>
+                                                    <label>Filter by installation ? </label>
                                                 </strong>
-                                                <select id="filteredInstallation" name="filteredInstallation"  multiple>
+                                                <select id="filteredInstallation" name="filteredInstallation"  multiple v-model="selected">
                                                     <option value="FALSE">All</option>
                                                 </select> 
+
+
+                                                <select name="selectVue" id="selectVue" v-model="selected">
+                                                    <option v-for="option in collectedData.INST" v-bind:value="option.name">
+                                                        {{ option.name }}
+                                                      </option>    
+                                                </select>
+                                               
                                                 <br>
-                                                Avaliable installations:
+                                                Selected installations:
                                                 <br>
-                                                {{INST[0]}}
+                                                {{selected}}
                                             </div>
                                             <!-- submit -->
                                             <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -135,6 +143,33 @@
 
 
                                 <div v-if="tabs.activetab === 3" class="tabcontent">
+                                        <div class="form-group">
+                                            <br>
+                                        <strong>
+                                            <label for="class1"> Parameter of interest 1</label>
+                                        </strong>
+                                        <select id="class1" name="class1">
+                                            <option value="Type">Type</option>
+                                            <option value="Year">Year</option>
+                                            <option value="Experiments">Experiments</option>
+                                            <option value="Installation">Installation</option>
+                                        </select> 
+                                    
+                                    <!-- groupBy -->
+                                    <br>
+                                        <strong>
+                                            <label for="class2"> Parameter of interest 2 </label>
+                                        </strong>
+                                        <select id="class2" name="class2">
+                                            <option value="Type">Type</option>
+                                            <option value="Year">Year</option>
+                                            <option value="Experiments">Experiments</option>
+                                            <option value="Installation">Installation</option>
+                                        </select> 
+                                    </div>
+                                    <button id="submitTreemap" type="submit" class="btn btn-primary" v-on:click.prevent="treemapGraph">
+                                            Show Treemap !
+                                    </button>
                                     <div class="embed-responsive embed-responsive-16by9" >
                                         <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                     </div>
@@ -196,13 +231,10 @@
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/select2.min.js"></script>
-    <!-- Angular -->
-    <!-- <script src="js/angular.min.js"></script> -->
     <!-- opencpu client -->
     <script src="js/opencpu-0.5.js"></script>
     <!-- user script -->
     <script src="js/appVue.js"></script>
-<!--     <script src="js/tabsVue.js"></script> -->
     
 </body>
 </html>

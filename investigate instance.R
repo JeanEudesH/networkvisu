@@ -10,6 +10,7 @@ library(treemap)
 library(networkVisu)
 library(roxygen2)
 library(devtools)
+
 instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "http://147.100.175.121:8080/phenomePheno3cAPI/rest/", "http://147.100.175.121:8080/phenomePhenoviaAPI/rest/", "http://147.100.175.121:8080/phenomePhenofieldAPI/rest/", "http://138.102.159.36:8080/phenomeEphesiaAPI/rest/")
 instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
 
@@ -82,12 +83,12 @@ g4
 # ---- V2
 
 source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/installationTable.R")
-source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/collectData.R")
+source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/collectScientificObject.R")
 source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/barplotGraph.R")
 source('/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/pieGraph.R')
 
-INST = installationTable(instancesApi = c("opensilex.org/openSilexAPI/rest/"),
-                         instancesNames = c("OpensilexDemo")
+INST = installationTable(instancesApi = c( "opensilex.org/openSilexAPI/rest/", "http://138.102.159.36:8080/phenomeEphesiaAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/"),
+                         instancesNames = c( "OpensilexDemo", "Ephesia", "Agrophen")
  )
 # INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
 #                          instancesNames = c("Diaphen", "OpensilexDemo", "Agrophen", "Pheno3C", "Phenovia", "PhenoField", "Ephesia")
@@ -122,10 +123,16 @@ boxplotGraph(DATA2, parameterOfInterest = "Type")
 
 pieGraph(DATA2, parameterOfInterest = "Type")
 
-
+treemapGraph(computedDF = DATA , class1 = "Year", class2 = "Experiments")
 # ---- treemap
+pal = RColorBrewer::brewer.pal(name = "Set2", n = 6)
+png(filename = "Graph.png", width = 500, height = 500) 
 treemap(dtf = DATA2, index = c("Year","Installation"), vSize = "n" ,
         palette =  pal, title = "PHENOME network", type = "index",
         fontsize.labels=c(15,12),bg.labels = 0,
         fontcolor.labels = c("navy", "snow"), border.lwds = c(3, 0.5))
-  
+ 
+dev.off()
+
+tttt = ggplot() +
+  geom_treemap()

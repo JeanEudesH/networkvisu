@@ -1,7 +1,7 @@
 Package: networkVisu
 Type: Package
 Title: Explore ennp2020 network of scientific objects
-Version: 0.3.4
+Version: 0.3.5
 Author: Jean-Eudes Hollebecq
 Maintainer: The package maintainer <jean-eudes.hollebecq@inra.fr>
 Description: Explore the scientific objects tracked within EPPN2020 network. Query PHIS information system and draws visualization.

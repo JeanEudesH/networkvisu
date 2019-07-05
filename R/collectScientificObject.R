@@ -9,7 +9,7 @@
 #' @import dplyr
 #' @import phisWSClientR
 #' @import stringr
-#' @import jsonlite
+#' @importFrom  jsonlite fromJSON
 #' @param inst informations of the installations from \code{\link{installationTable}}
 #' @param instancesNames the name of the installation(s)
 #' @param instancesApi the address of the REST API of the installation(s)
@@ -24,23 +24,23 @@
 #'        )
 #' DATA = collectScientificObject(INST)
 #' }
-collectScientificObject = function(inst=NULL, instancesNames, instancesApi){
+collectScientificObject <- function(inst=NULL, instancesNames, instancesApi){
  #Tests
    if(is.null(inst)){
-    inst = data.frame(name = instancesNames, api=instancesApi)
+    inst <- data.frame(name = instancesNames, api=instancesApi)
   }else{
     if(!is.data.frame(inst)){
-      inst = from_JSON(inst)
+      inst <- fromJSON(inst)
     }
   }
-  tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
+  tempData <- apply(X = inst, MARGIN = 1, FUN = function(installation){
     initializeClientConnection(apiID="ws_private", url = installation['api'])
-    aToken = getToken("guest@opensilex.org","guest")
+    aToken <- getToken("guest@opensilex.org","guest")
     count <- getScientificObjects(aToken$data, pageSize = 1)$totalCount
     scientificObjects <- getScientificObjects(aToken$data, pageSize = count)
-    wsQuery = scientificObjects$data  
+    wsQuery <- scientificObjects$data  
     
-    computedDF = wsQuery%>%
+    computedDF <- wsQuery%>%
       select(rdfType, experiment)%>%
       mutate(Type = str_sub(rdfType, start = str_locate(rdfType, pattern = "#")[,1]+1, end = str_locate(rdfType, pattern = "#")[,1]+16))%>%
       mutate(Experiments = sapply(str_split(experiment, pattern = "/"), FUN = function(X){X[5]}))%>%
@@ -50,9 +50,9 @@ collectScientificObject = function(inst=NULL, instancesNames, instancesApi){
     return(computedDF)
   }
   )
-  computedDF = data.frame()
+  computedDF <- data.frame()
   for( i in 1:length(tempData)){
-    computedDF = rbind(computedDF, tempData[[i]])
+    computedDF <- rbind(computedDF, tempData[[i]])
   }
   
   return(data = computedDF)

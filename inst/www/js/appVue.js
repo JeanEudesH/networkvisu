@@ -1,6 +1,6 @@
 // comment out this line from development 
-//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
-ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
+ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+//ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
   data: {
@@ -9,8 +9,9 @@ var App = new Vue({
       api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
       RfunctionName: "installationTable"
     },
+    selected: [],
     collectedData:{
-      INST:[],
+      INST:[{api: "FALSE", name: "All"}],
       computedDF:[],
       functionName: "collectScientificObject"
     },
@@ -29,6 +30,11 @@ var App = new Vue({
           parameterOfInterest: "pieparameterOfInterest",
           filteredInstallation: "piefilteredInstallation"
         },
+        treemap: {
+          functionName: "treemapGraph",
+          class1: "class1",
+          class2: "class2"
+        },
         boxplot: {
           functionName: "boxplotGraph",
           parameterOfInterest: "boxparameterOfInterest",
@@ -41,7 +47,8 @@ var App = new Vue({
     INST: function () {
       var inst = [];
       for (var j = 0; j < this.wsParams.name.length; j++){
-        inst[j] = {name: this.wsParams.name[j], api: this.wsParams.api[j]}
+        instance = {name: this.wsParams.name[j], api: this.wsParams.api[j]};
+        inst.push(instance)
       }
       return inst
     }
@@ -51,22 +58,6 @@ var App = new Vue({
     this.collectData() ;
    },
   methods: {
-    fillListInput: function(inputId, inputList){
-      inputData = [];
-      inputList.forEach(function(inputItem) {
-          item = {};
-          item.id = inputItem;
-          item.text = inputItem;
-          inputData.push(item);
-        });
-        // console.log(inputData);
-        defaultSelectParameters = {
-          data: inputData
-        };
-        // merge objects
-        finalSelectParameters = { ...defaultSelectParameters };
-        $("#" + inputId).select2(finalSelectParameters);
-  },
     installationTable: function(){
       var self = this;
         installationTable = [
@@ -85,7 +76,7 @@ var App = new Vue({
       
           function(output) {
             //$("#cssLoader").removeClass("is-active");
-            self.collectedData.INST = output
+            self.collectedData.INST = self.collectedData.INST.concat(output);
 
             return output;
           }
@@ -94,6 +85,23 @@ var App = new Vue({
           alert("Error: "+ request.responseText);
         });
     },
+    fillListInput: function(inputId, inputList){
+      inputData = [];
+      inputList.forEach(function(inputItem) {
+          item = {};
+          item.id = inputItem;
+          item.text = inputItem;
+          inputData.push(item);
+        });
+        // console.log(inputData);
+        defaultSelectParameters = {
+          data: inputData
+        };
+        // merge objects
+        finalSelectParameters = { ...defaultSelectParameters };
+        $("#" + inputId).select2(finalSelectParameters);
+  },
+
     collectData: function(){
         document.getElementById("spinner").style.visibility = "visible"; 
         var self = this;
@@ -182,6 +190,35 @@ var App = new Vue({
         })
       );
   },
+  treemapGraph: function(){
+    $("#cssLoader").addClass("is-active");
+    var self = this;
+    // Run the R function
+    var class1 = $("#"+self.graphParameters.treemap.class1).val();
+    var class2 =$("#"+self.graphParameters.treemap.class2).val();
+    var outputName = this.graphParameters.outputName;
+    var iframeInput = this.graphParameters.iframeInput;
+    return(req = $(iframeInput).rplot(
+      self.graphParameters.treemap.functionName,
+        {
+          computedDF: self.collectedData.computedDF,
+          class1: class1,
+          class2: class2
+        },
+        function(session) {
+        $("#" + iframeInput).attr(
+          "src",
+          session.getFileURL(outputName)
+        );
+        $("#submit").removeAttr("disabled");
+        $("#cssLoader").removeClass("is-active");
+      }).fail(function(request) {
+        $("#submit").removeAttr("disabled");
+        $("#cssLoader").removeClass("is-active");
+        alert("An unknown error has append : " + request.responseText);
+      })
+    );
+},
   showboxplot: function(){
     $("#cssLoader").addClass("is-active");
     var self = this;

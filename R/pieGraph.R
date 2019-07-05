@@ -25,13 +25,13 @@
 #' DATA = collectData(INST)
 #' pieGraph(DATA, parameterOfInterest = "Type")
 #' }
-pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALSE){
+pieGraph <- function(computedDF, parameterOfInterest, filteredInstallation = FALSE){
   ##---- DATA
   if(!is.data.frame(computedDF)){
-    computedDF = fromJSON(computedDF)
+    computedDF <- fromJSON(computedDF)
   }
   if(filteredInstallation != FALSE){
-    computedDF = computedDF%>%
+    computedDF <- computedDF%>%
       filter( Installation == filteredInstallation)
   }
 
@@ -44,7 +44,7 @@ pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALS
     mutate(lab.ypos = 1-round(cumsum(prop) - 0.5*prop, digits = 2))
   count.data
   
-  g4 = ggplot(count.data, aes(x = "", y = prop, fill = `eval(parse(text = parameterOfInterest))`)) +
+  g4 <- ggplot(count.data, aes(x = "", y = prop, fill = `eval(parse(text = parameterOfInterest))`)) +
     geom_bar(width = 1, stat = "identity", color = "white") +
     coord_polar("y", start = 0, direction = 1)+
     geom_text(aes(y = lab.ypos, label = prop), color = "white", size=5)+
@@ -52,7 +52,6 @@ pieGraph = function(computedDF, parameterOfInterest, filteredInstallation = FALS
     labs(fill = parameterOfInterest) +
     labs(title = "Proportion of Scientific Objects within the network")
   g4
-    g4  
-    ggsave(filename = "Graph.png", plot = g4)
+  ggsave(filename = "Graph.png", plot = g4)
   
 }
