@@ -1,4 +1,5 @@
 ## Test Interoperabilité  -  Nombre d'objects par installation.
+devtools::install_github("timelyportfolio/d3radarR")
 library(remotes)
 library(phisWSClientR)
 library(RColorBrewer)
@@ -6,10 +7,13 @@ library(ggplot2)
 library(stringr)
 library(data.table)
 library(dplyr)
+library(tidyverse)
 library(treemap)
 library(networkVisu)
 library(roxygen2)
 library(devtools)
+library(jsonlite)
+library(d3radarR)
 
 instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "http://147.100.175.121:8080/phenomePheno3cAPI/rest/", "http://147.100.175.121:8080/phenomePhenoviaAPI/rest/", "http://147.100.175.121:8080/phenomePhenofieldAPI/rest/", "http://138.102.159.36:8080/phenomeEphesiaAPI/rest/")
 instancesNames = c("diaphen", "opensilexDemo", "agrophen", "pheno3C", "phenovia", "PhenoField", "ephesia")
@@ -87,8 +91,8 @@ source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/collectScien
 source("/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/barplotGraph.R")
 source('/home/jeaneudes/Documents/PHISanalysis/RShiny/NetworkVisu/R/pieGraph.R')
 
-INST = installationTable(instancesApi = c( "opensilex.org/openSilexAPI/rest/", "http://138.102.159.36:8080/phenomeEphesiaAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/"),
-                         instancesNames = c( "OpensilexDemo", "Ephesia", "Agrophen")
+INST = installationTable(instancesApi = c( "opensilex.org/openSilexAPI/rest/", "http://138.102.159.36:8080/phenomeEphesiaAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/"),
+                         instancesNames = c( "OpensilexDemo", "Ephesia", "Agrophen", "Pheno3C")
  )
 # INST = installationTable(instancesApi = c("147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"),
 #                          instancesNames = c("Diaphen", "OpensilexDemo", "Agrophen", "Pheno3C", "Phenovia", "PhenoField", "Ephesia")
@@ -102,6 +106,34 @@ system.time({
 DATA2 = DATA%>%
   group_by(Installation, Type, Year, Experiments)%>%
   count()
+DATA3 = DATA%>%
+  group_by(Installation, Year)%>%
+  count()%>%
+  rename(key = Installation, value=  n)%>%
+  spread(key = Year, value = value, fill = 0)
+ppaa = toJSON(DATA3, dataframe = 'rows', pretty = TRUE)
+
+formatage = function(x){
+  values = list()
+  for(col in names(x[-1])){
+    axis = col
+    value = as.numeric(x[col])
+    values = c(values, list(list('axis' = axis, 'value' = value)))
+  }
+  format = list('key' = as.character(x[1]),
+         'values' = values
+    )
+  return( format)
+}
+formatage(DATA3[1,])
+
+LDATA = apply(DATA3, MARGIN = 1, FUN =  formatage)
+d3radar(json_data)
+d3radar(yDATA)
+d3radar(LDATA)
+
+
+
 
 SENSORS = collectSensor(INST)
 DATA2 = SENSORS%>%

@@ -73,17 +73,12 @@
                                                 <strong>
                                                     <label>Filter by installation ? </label>
                                                 </strong>
-                                                <select id="filteredInstallation" name="filteredInstallation"  multiple v-model="selected">
-                                                    <option value="FALSE">All</option>
-                                                </select> 
 
-
-                                                <select name="selectVue" id="selectVue" v-model="selected">
-                                                    <option v-for="option in collectedData.INST" v-bind:value="option.name">
+                                                <select id="filteredInstallation" v-model="selected" multiple>
+                                                    <option v-for="option in collectedData.INST" v-bind:value="option.api">
                                                         {{ option.name }}
-                                                      </option>    
+                                                    </option>
                                                 </select>
-                                               
                                                 <br>
                                                 Selected installations:
                                                 <br>

@@ -1,5 +1,5 @@
 // comment out this line from development 
-ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
@@ -12,7 +12,7 @@ var App = new Vue({
     selected: [],
     collectedData:{
       INST:[{api: "FALSE", name: "All"}],
-      computedDF:[],
+      computedDF: [],
       functionName: "collectScientificObject"
     },
     graphParameters: {
@@ -55,7 +55,7 @@ var App = new Vue({
   },
   mounted:function(){
     this.fillListInput(inputId = this.graphParameters.barplot.filterBy ,inputList = this.wsParams.name);
-    this.collectData() ;
+    this.collectData();
    },
   methods: {
     installationTable: function(){
@@ -101,7 +101,6 @@ var App = new Vue({
         finalSelectParameters = { ...defaultSelectParameters };
         $("#" + inputId).select2(finalSelectParameters);
   },
-
     collectData: function(){
         document.getElementById("spinner").style.visibility = "visible"; 
         var self = this;
@@ -116,7 +115,7 @@ var App = new Vue({
           // list of arguments names and value
           {
             inst: self.INST
-/*             instancesNames: self.wsParams.name,
+            /*instancesNames: self.wsParams.name,
             instancesApi: self.wsParams.api */
           },
       
