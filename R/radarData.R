@@ -7,9 +7,8 @@
 
 #' @title radarData from the different installations
 #' @import dplyr
-#' @import tidyverse
-#' @importFrom  jsonlite fromJSON
-#' @param DATA Data of the installations from \code{\link{collectScientificObjects}}
+# @import d3radarR
+#' @param DATA Data of the installations from \code{\link{collectScientificObject}}
 #' @param object The object layer for the radar plot (can be 'Installation', 'Year', 'Experiments', 'Type')
 #' @param variable The variable on which to explore the objects (can be 'Installation', 'Year', 'Experiments', 'Type')
 #' @return Data for scientific objects into a format suitable for radarplot (d3radarR)
@@ -25,35 +24,28 @@
 #' 
 #' 
 #' }
-radarData <- function(DATA = NULL, object, variable){
+radarData <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
 
   DATA = DATA%>%
     group_by(eval(parse(text = object)), eval(parse(text = variable)))%>%
     count()%>%
-    rename(key = eval(parse(text = object)), value = n)%>%
-    spread(key = eval(parse(text = variable)), value = value, fill = 0)
+    rename(key = 'eval(parse(text = object))', value = n)%>%
+    spread(key = 'eval(parse(text = variable))', value = value, fill = 0)
+    
 
-  LDATA = apply(DATA3, MARGIN = 1, FUN =  formatage)
+  LDATA = apply(DATA, MARGIN = 1, FUN =  function(x){
+    values = list()
+    for(col in names(x[-1])){
+      axis = col
+      value = as.numeric(x[col])
+      values = c(values, list(list('axis' = axis, 'value' = value)))
+    }
+    format = list('key' = as.character(x[1]),
+                  'values' = values
+    )
+    return( format)
+    }
+    )
   
-  return(data = computedDF)
-}
-
-
-
-#' @title formatage data for radar
-#' @param x the line of the dataset to perform the function on 
-#' @return Data for scientific objects into a format suitable for radarplot (d3radarR)
-#' @internal
-
-formatage = function(x){
-  values = list()
-  for(col in names(x[-1])){
-    axis = col
-    value = as.numeric(x[col])
-    values = c(values, list(list('axis' = axis, 'value' = value)))
-  }
-  format = list('key' = as.character(x[1]),
-                'values' = values
-  )
-  return( format)
+  d3radarR::d3radar(LDATA)
 }

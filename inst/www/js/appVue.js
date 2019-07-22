@@ -1,5 +1,5 @@
 // comment out this line from development 
-//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
@@ -39,6 +39,11 @@ var App = new Vue({
           functionName: "boxplotGraph",
           parameterOfInterest: "boxparameterOfInterest",
           filteredInstallation: "boxfilteredInstallation"
+        },
+        radar: {
+          functionName: "radarData",
+          objectOfInterest: "objectOfInterest",
+          variable: "variableOfInterest"
         }
     },
     tabs: { activetab: 1 }
@@ -246,6 +251,36 @@ var App = new Vue({
         alert("An unknown error has append : " + request.responseText);
       })
     );
+},
+
+showradar: function(){
+  $("#cssLoader").addClass("is-active");
+  var self = this;
+  // Run the R function
+  var objectOfInterest = $("#"+self.graphParameters.radar.objectOfInterest).val();
+  var variable =$("#"+self.graphParameters.radar.variable).val();
+  var outputName = this.graphParameters.outputName;
+  var iframeInput = this.graphParameters.iframeInput;
+  return(req = $(iframeInput).rplot(
+    self.graphParameters.radar.functionName,
+      {
+        DATA: self.collectedData.computedDF,
+        object: objectOfInterest,
+        variable: variable
+      },
+      function(session) {
+      $("#" + iframeInput).attr(
+        "src",
+        session.getFileURL(outputName)
+      );
+      $("#submit").removeAttr("disabled");
+      $("#cssLoader").removeClass("is-active");
+    }).fail(function(request) {
+      $("#submit").removeAttr("disabled");
+      $("#cssLoader").removeClass("is-active");
+      alert("An unknown error has append : " + request.responseText);
+    })
+  );
 }
   }
 })

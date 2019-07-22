@@ -39,7 +39,8 @@
                                 <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Piechart</a>
                                 <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Treemap</a>
                                 <a v-on:click="tabs.activetab=4" v-bind:class="[ tabs.activetab === 4 ? 'active' : '' ]">Boxplot</a>
-                                <a v-on:click="tabs.activetab=5" v-bind:class="[ tabs.activetab === 5 ? 'active' : '' ]">DataTable</a>
+                                <a v-on:click="tabs.activetab=5" v-bind:class="[ tabs.activetab === 5 ? 'active' : '' ]">Radar</a>
+                                <a v-on:click="tabs.activetab=6" v-bind:class="[ tabs.activetab === 6 ? 'active' : '' ]">DataTable</a>
                             </div>
                          
                             <div class="content">
@@ -209,6 +210,43 @@
                             </div>
 
                             <div v-if="tabs.activetab === 5" class="tabcontent">
+                                <div id="radar">
+                                        <!-- parameterOfInterest -->
+                                    <div class="form-group">
+                                        <br>
+                                        <strong>
+                                            <label for="objectOfInterest"> Object of interest </label>
+                                        </strong>
+                                        <select id="objectOfInterest" name="parameterOfInterest">
+                                            <option value="Type">Type</option>
+                                            <option value="Year">Year</option>
+                                            <option value="Experiments">Experiments</option>
+                                            <option value="Installation">Installation</option>
+                                        </select> 
+                                    </div>
+                                    <div class="form-group">
+                                        <br>
+                                        <strong>
+                                            <label for="variable"> Variable of interest </label>
+                                        </strong>
+                                        <select id="variableOfInterest" name="parameterOfInterest">
+                                            <option value="Type">Type</option>
+                                            <option value="Year">Year</option>
+                                            <option value="Experiments">Experiments</option>
+                                            <option value="Installation">Installation</option>
+                                        </select> 
+                                    </div>
+
+                                    <!-- submit -->
+                                    <button id="submitradar" type="submit" class="btn btn-primary" v-on:click.prevent="showradar">
+                                            Show radar!
+                                    </button>
+                                    <div class="embed-responsive embed-responsive-16by9" >
+                                        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="tabs.activetab === 6" class="tabcontent">
                                 <div id="DataTable">
 
                                     <div class="form-group">

@@ -7,13 +7,12 @@
 
 #' @title Export the data to desired format
 #' @import dplyr
-#' @import tidyverse
-#' @importFrom  jsonlite fromJSON
 #' @importFrom  jsonlite toJSON
-#' @importFrom  xml2 as_xml_document
-#' @param DATA Data of the installations from \code{\link{collectScientificObjects}}
+#' @importFrom  utils write.csv
+#' @param DATA Data of the installations from \code{\link{collectScientificObject}}
 #' @param format The format desired
 #' @param rawData Want to download the raw data or the refined ones ?
+#' @param filename name of the file to download (default is 'file')
 #' @return Data in a desired format
 #' @export
 #'

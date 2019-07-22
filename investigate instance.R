@@ -45,6 +45,7 @@ radar_groupped_DATA = aggregatedData %>%
 radar_groupped_DATA = apply(radar_groupped_DATA, MARGIN = 1, FUN =  formatage)
 d3radar(radar_groupped_DATA)
 
+radarData(DATA = aggregatedData, object = "Installation", variable = "Year")
 
 formatage = function(x){
   values = list()
@@ -58,6 +59,7 @@ formatage = function(x){
     )
   return( format)
 }
+
 
 # ___________________________________
 
