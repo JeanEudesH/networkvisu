@@ -5,9 +5,13 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
-      api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
+      name: ['OpensilexDemo'],
+      api: ['opensilex.org/openSilexAPI/rest/'],
       RfunctionName: "installationTable"
+      /* name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
+      api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
+       */
+
     },
     selected: [],
     collectedData:{
@@ -45,6 +49,12 @@ var App = new Vue({
           objectOfInterest: "objectOfInterest",
           variable: "variableOfInterest"
         }
+    },
+    exportedData: {
+      rawData: true, 
+      filename: "file",
+      format: "csv",
+      functionName: "exportData"
     },
     tabs: { activetab: 1 }
   },
@@ -252,7 +262,6 @@ var App = new Vue({
       })
     );
 },
-
 showradar: function(){
   $("#cssLoader").addClass("is-active");
   var self = this;
@@ -281,6 +290,51 @@ showradar: function(){
       alert("An unknown error has append : " + request.responseText);
     })
   );
-}
+},
+download_json: function () {
+  var self = this;
+  console.log(self.collectedData.computedDF);
+  var hiddenElement = document.getElementById('Download');
+  hiddenElement.href = 'data:json/application;charset=utf-8,' + JSON.stringify(self.collectedData.computedDF);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'file.json';
+  hiddenElement.click();
+},
+ convertToCSV: function (objArray) {
+  var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+  var str = '';
+  var fields = Object.keys(array[0]);
+  for (var i = 0; i < array.length; i++) {
+      var line = '';
+      for (var index in array[i]) {
+          if (line != '') line += ','
+
+          line += array[i][index];
+      }
+
+      str += line + '\r\n';
+  }
+  
+  var csv = array.map(function(row){
+    return fields.map(function(fieldName){
+      return JSON.stringify(row[fieldName])
+    }).join(',')
+  })
+  csv.unshift(fields.join(','))
+
+  return csv.join('\r\n');
+},
+download_csv: function () {
+  var self = this;
+  var Data = self.collectedData.computedDF;
+  var csvContent =[];
+  csvContent = this.convertToCSV(Data)
+
+  var hiddenElement = document.getElementById('Download');
+  hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'file.csv';
+  hiddenElement.click();
+  }
   }
 })

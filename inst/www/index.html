@@ -100,7 +100,6 @@
                                         </div>
                                 </div>
 
-
                                 <div v-if="tabs.activetab === 2" class="tabcontent">
                                             <div id="pieChart">
                                                     <!-- parameterOfInterest -->
@@ -137,7 +136,6 @@
                                                 </div>
                                             </div>
                                 </div>
-
 
                                 <div v-if="tabs.activetab === 3" class="tabcontent">
                                         <div class="form-group">
@@ -207,9 +205,9 @@
                                                 <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                             </div>
                                         </div>
-                            </div>
+                                </div>
 
-                            <div v-if="tabs.activetab === 5" class="tabcontent">
+                                <div v-if="tabs.activetab === 5" class="tabcontent">
                                 <div id="radar">
                                         <!-- parameterOfInterest -->
                                     <div class="form-group">
@@ -245,8 +243,9 @@
                                         <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                     </div>
                                 </div>
-                            </div>
-                            <div v-if="tabs.activetab === 6" class="tabcontent">
+                                </div>
+                                
+                                <div v-if="tabs.activetab === 6" class="tabcontent">
                                 <div id="DataTable">
 
                                     <div class="form-group">
@@ -259,13 +258,16 @@
                                         <br>
                                     </div>
                                     <!-- submit -->
-                                    <form method="get" action="file.csv">
-                                        <button type="submit">Download!</button>
-                                    </form>
-        
+                                    option raw vs refined data ?
+                                    <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
+                                    <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
 
-                                    Ici : un tableau
-                                
+                                    <a id="Download" ></a>
+                                    <br>
+                                        Un tableau plutôt
+                                    <div class="embed-responsive embed-responsive-16by9" >
+                                        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                    </div>
                                 </div>
                             </div>
                         </div>
