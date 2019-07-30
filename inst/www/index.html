@@ -258,16 +258,20 @@
                                         <br>
                                     </div>
                                     <!-- submit -->
-                                    option raw vs refined data ?
                                     <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
                                     <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
+                                    <button class="btn" v-on:click="download_xml()"><i class="fa fa-download"></i> Download XML</button>
 
                                     <a id="Download" ></a>
                                     <br>
-                                        Un tableau plutôt
-                                    <div class="embed-responsive embed-responsive-16by9" >
-                                        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
-                                    </div>
+                                    <button v-on:click="tableSummarised()" class="btn" >show table</button>
+
+                                        Un tableau plutôt,
+                                        option raw vs refined data ?
+                                        <div class="tableau">   
+                                            <table id="mytable" class="display" style="width:80%">
+                                        </div>
+
                                 </div>
                             </div>
                         </div>
@@ -283,7 +287,8 @@
     <script src="js/vue.js"></script>
     <!-- jquery -->
     <script src="js/jquery.min.js"></script>
-    <script href="inst/www/js/jquery-ui.js"></script>
+    <script href="js/jquery-ui.js"></script>
+    <script src='js/jquery.dataTables.js'></script>
     <!-- tether-->
     <script src="js/tether.min.js"></script>
     <!-- Bootstrap -->

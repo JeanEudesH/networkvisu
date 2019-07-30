@@ -54,7 +54,10 @@ var App = new Vue({
       rawData: true, 
       filename: "file",
       format: "csv",
-      functionName: "exportData"
+      functionName: "exportData",
+      tablesDivId: "tables", 
+      tabNavId: "navtabs", 
+      searchedParameters: "searchedParameters"
     },
     tabs: { activetab: 1 }
   },
@@ -71,6 +74,7 @@ var App = new Vue({
   mounted:function(){
     this.fillListInput(inputId = this.graphParameters.barplot.filterBy ,inputList = this.wsParams.name);
     this.collectData();
+    this.tableSummarised();
    },
   methods: {
     installationTable: function(){
@@ -115,7 +119,7 @@ var App = new Vue({
         // merge objects
         finalSelectParameters = { ...defaultSelectParameters };
         $("#" + inputId).select2(finalSelectParameters);
-  },
+    },
     collectData: function(){
         document.getElementById("spinner").style.visibility = "visible"; 
         var self = this;
@@ -203,8 +207,8 @@ var App = new Vue({
           alert("An unknown error has append : " + request.responseText);
         })
       );
-  },
-  treemapGraph: function(){
+    },
+    treemapGraph: function(){
     $("#cssLoader").addClass("is-active");
     var self = this;
     // Run the R function
@@ -232,8 +236,8 @@ var App = new Vue({
         alert("An unknown error has append : " + request.responseText);
       })
     );
-},
-  showboxplot: function(){
+    },
+    showboxplot: function(){
     $("#cssLoader").addClass("is-active");
     var self = this;
     // Run the R function
@@ -261,8 +265,8 @@ var App = new Vue({
         alert("An unknown error has append : " + request.responseText);
       })
     );
-},
-showradar: function(){
+    },
+    showradar: function(){
   $("#cssLoader").addClass("is-active");
   var self = this;
   // Run the R function
@@ -290,8 +294,8 @@ showradar: function(){
       alert("An unknown error has append : " + request.responseText);
     })
   );
-},
-download_json: function () {
+    },
+    download_json: function () {
   var self = this;
   console.log(self.collectedData.computedDF);
   var hiddenElement = document.getElementById('Download');
@@ -299,8 +303,8 @@ download_json: function () {
   hiddenElement.target = '_blank';
   hiddenElement.download = 'file.json';
   hiddenElement.click();
-},
- convertToCSV: function (objArray) {
+    },
+    convertToCSV: function (objArray) {
   var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
   var str = '';
   var fields = Object.keys(array[0]);
@@ -323,8 +327,8 @@ download_json: function () {
   csv.unshift(fields.join(','))
 
   return csv.join('\r\n');
-},
-download_csv: function () {
+    },
+    download_csv: function () {
   var self = this;
   var Data = self.collectedData.computedDF;
   var csvContent =[];
@@ -335,6 +339,62 @@ download_csv: function () {
   hiddenElement.target = '_blank';
   hiddenElement.download = 'file.csv';
   hiddenElement.click();
-  }
+    },
+    download_xml: function () {
+  // c'est du node.js 'require'
+  var convert = require('xml-js');
+  var self = this;
+  var json = self.collectedData.computedDF;
+  var xml_doc = convert.json2xml(json,options);
+
+  var hiddenElement = document.getElementById('Download');
+  hiddenElement.href = 'data:xml;charset=utf-8,' + encodeURI(xml_doc);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'file.xml';
+  hiddenElement.click();
+    },
+    tableSummarised: function() {
+      var df = this.collectedData.computedDF
+/*     return()
+req = ocpu.rpc(
+    this.exportedData.functionName,
+    {
+      DATA: this.collectedData.computedDF,
+      format: this.exportedData.format,
+      filename: this.exportedData.filename,
+      rawData: 'TRUE'
+    }, */
+/*     function(df) { */
+      // get the column names
+      var colnames = Object.keys(df[0]);
+      // create the JSON array for the columns required by DataTable
+      var columns = [];
+      for (i = 0; i < colnames.length; i++) {
+        var obj = {};
+        obj['data'] = colnames[i]
+        columns.push(obj);
+      } 
+
+      // DataTable update
+      if ($.fn.DataTable.isDataTable("#mytable")) {
+        $('#mytable').DataTable().clear().destroy();
+        $('#mytable thead tr').remove();
+      }
+      $('#mytable').append(this.makeHeaders(colnames));
+      $("#mytable").dataTable({
+          data: df,
+          columns: columns
+        });
+    /* } */
+  
+    },
+    makeHeaders: function (colnames) {
+      var str = "<thead><tr>";
+      for (var i = 0; i < colnames.length; i++) {
+        str += "<th>" + colnames[i] + "</th>";
+      }
+      str +="</tr></thead>"
+      return (str);
+    }
   }
 })
