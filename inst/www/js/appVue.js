@@ -17,6 +17,7 @@ var App = new Vue({
     collectedData:{
       INST:[{api: "FALSE", name: "All"}],
       computedDF: [],
+      refinedDF: [],
       functionName: "collectScientificObject"
     },
     graphParameters: {
@@ -69,12 +70,29 @@ var App = new Vue({
         inst.push(instance)
       }
       return inst
-    }
+    },
+    refineDF: function(){
+      var self = this;
+      return ocpu.rpc(
+        self.exportedData.functionName,
+        {
+          DATA: self.collectedData.computedDF,
+          format: self.exportedData.format,
+          filename: self.exportedData.filename,
+          rawData: 'FALSE'
+        }, 
+         function(df) {
+          self.collectedData.refinedDF = df
+         return df
+         }
+      ).fail(function(request){
+        alert("Error: "+ request.responseText);
+      });
+    },
   },
   mounted:function(){
     this.fillListInput(inputId = this.graphParameters.barplot.filterBy ,inputList = this.wsParams.name);
     this.collectData();
-    this.tableSummarised();
    },
   methods: {
     installationTable: function(){
@@ -134,8 +152,6 @@ var App = new Vue({
           // list of arguments names and value
           {
             inst: self.INST
-            /*instancesNames: self.wsParams.name,
-            instancesApi: self.wsParams.api */
           },
       
           function(output) {
@@ -296,10 +312,14 @@ var App = new Vue({
   );
     },
     download_json: function () {
-  var self = this;
-  console.log(self.collectedData.computedDF);
+  var raw = this.exportedData.rawData;
+  if(raw ==='false'){
+    var DATA = this.collectedData.refinedDF;
+  } else{
+    var DATA = this.collectedData.computedDF;
+  }
   var hiddenElement = document.getElementById('Download');
-  hiddenElement.href = 'data:json/application;charset=utf-8,' + JSON.stringify(self.collectedData.computedDF);
+  hiddenElement.href = 'data:json/application;charset=utf-8,' + JSON.stringify(DATA);
   hiddenElement.target = '_blank';
   hiddenElement.download = 'file.json';
   hiddenElement.click();
@@ -329,10 +349,14 @@ var App = new Vue({
   return csv.join('\r\n');
     },
     download_csv: function () {
-  var self = this;
-  var Data = self.collectedData.computedDF;
+  var raw = this.exportedData.rawData;
+  if(raw ==='false'){
+    var DATA = this.collectedData.refinedDF;
+  } else{
+    var DATA = this.collectedData.computedDF;
+  }
   var csvContent =[];
-  csvContent = this.convertToCSV(Data)
+  csvContent = this.convertToCSV(DATA);
 
   var hiddenElement = document.getElementById('Download');
   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
@@ -343,9 +367,13 @@ var App = new Vue({
     download_xml: function () {
   // c'est du node.js 'require'
   var convert = require('xml-js');
-  var self = this;
-  var json = self.collectedData.computedDF;
-  var xml_doc = convert.json2xml(json,options);
+  var raw = this.exportedData.rawData;
+  if(raw ==='false'){
+    var DATA = this.collectedData.refinedDF;
+  } else{
+    var DATA = this.collectedData.computedDF;
+  }
+  var xml_doc = convert.json2xml(DATA,options);
 
   var hiddenElement = document.getElementById('Download');
   hiddenElement.href = 'data:xml;charset=utf-8,' + encodeURI(xml_doc);
@@ -354,38 +382,35 @@ var App = new Vue({
   hiddenElement.click();
     },
     tableSummarised: function() {
-      var df = this.collectedData.computedDF
-/*     return()
-req = ocpu.rpc(
-    this.exportedData.functionName,
-    {
-      DATA: this.collectedData.computedDF,
-      format: this.exportedData.format,
-      filename: this.exportedData.filename,
-      rawData: 'TRUE'
-    }, */
-/*     function(df) { */
-      // get the column names
-      var colnames = Object.keys(df[0]);
-      // create the JSON array for the columns required by DataTable
-      var columns = [];
-      for (i = 0; i < colnames.length; i++) {
-        var obj = {};
-        obj['data'] = colnames[i]
-        columns.push(obj);
-      } 
-
-      // DataTable update
-      if ($.fn.DataTable.isDataTable("#mytable")) {
-        $('#mytable').DataTable().clear().destroy();
-        $('#mytable thead tr').remove();
-      }
-      $('#mytable').append(this.makeHeaders(colnames));
-      $("#mytable").dataTable({
-          data: df,
-          columns: columns
-        });
-    /* } */
+      var self = this;
+      setTimeout(function () {
+        var raw = self.exportedData.rawData;
+        if(raw==="false"){
+          var df = self.collectedData.refinedDF;
+        } else {
+          var df = self.collectedData.computedDF  
+        }
+        
+        var colnames = Object.keys(df[0]);
+        // create the JSON array for the columns required by DataTable
+        var columns = [];
+        for (i = 0; i < colnames.length; i++) {
+          var obj = {};
+          obj['data'] = colnames[i]
+          columns.push(obj);
+        }
+  
+        // DataTable update
+        if ($.fn.DataTable.isDataTable("#mytable")) {
+          $('#mytable').DataTable().clear().destroy();
+          $('#mytable thead tr').remove();
+        }
+        $('#mytable').append(self.makeHeaders(colnames));
+        $("#mytable").dataTable({
+            data: df,
+            columns: columns
+          });
+      },200)
   
     },
     makeHeaders: function (colnames) {

@@ -245,15 +245,15 @@
                                 </div>
                                 </div>
                                 
-                                <div v-if="tabs.activetab === 6" class="tabcontent">
-                                <div id="DataTable">
+                                <div v-if="tabs.activetab === 6"  class="tabcontent">
+                                <div id="DataTable" >
 
                                     <div class="form-group">
                                         <strong>
                                             <label for="filter"> DataTable of output </label>
                                         </strong>
 
-                                        desired output ? (in an alert ?)
+                                        desired output in an alert ?
 
                                         <br>
                                     </div>
@@ -264,11 +264,14 @@
 
                                     <a id="Download" ></a>
                                     <br>
-                                    <button v-on:click="tableSummarised()" class="btn" >show table</button>
+                                    <br >   
+                                    <button  class="btn">   refineD </button>
+                                    <button class="btn" v-on:click="tableSummarised()"><i class="fa fa-download"></i> data</button>
+                                    <br>
+                                            <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=true> Raw<br>
+                                            <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=false> Refined<br>
 
-                                        Un tableau plutôt,
-                                        option raw vs refined data ?
-                                        <div class="tableau">   
+                                        <div  >   
                                             <table id="mytable" class="display" style="width:80%">
                                         </div>
 

@@ -35,7 +35,7 @@ exportData <- function(DATA = NULL, format = 'csv', rawData = TRUE, filename = '
     )
   }else{
     DATA = DATA%>%
-      group_by(eval(parse(text = object)), eval(parse(text = variable)))%>%
+      group_by_all()%>%
       count()
     
     switch(EXPR = format,
@@ -44,5 +44,6 @@ exportData <- function(DATA = NULL, format = 'csv', rawData = TRUE, filename = '
            json = write(x = toJSON(DATA), file = paste(filename, format, sep = "."))
     )
   }
+  return(DATA)
 }
 
