@@ -47,6 +47,7 @@ radarData <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
     return( format)
     }
     )
-  
-  return(d3radarR::d3radar(LDATA))
+  radar = d3radarR::d3radar(LDATA)
+  htmlwidgets::saveWidget(widget = radar, file = "Graph.html", selfcontained = FALSE)
+  return(radar)
 }

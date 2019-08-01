@@ -1,5 +1,5 @@
 // comment out this line from development 
-ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
@@ -49,7 +49,8 @@ var App = new Vue({
         radar: {
           functionName: "radarData",
           objectOfInterest: "objectOfInterest",
-          variable: "variableOfInterest"
+          variable: "variableOfInterest",
+          outputName: "Graph.html"
         }
     },
     exportedData: {
@@ -289,9 +290,9 @@ var App = new Vue({
   // Run the R function
   var objectOfInterest = $("#"+self.graphParameters.radar.objectOfInterest).val();
   var variable =$("#"+self.graphParameters.radar.variable).val();
-  var outputName = this.graphParameters.outputName;
+  var outputName = this.graphParameters.radar.outputName;
   var iframeInput = this.graphParameters.iframeInput;
-  return(req = $(iframeInput).rplot(
+  return(req = ocpu.call(
     self.graphParameters.radar.functionName,
       {
         DATA: self.collectedData.computedDF,
