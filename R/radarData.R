@@ -7,6 +7,7 @@
 
 #' @title radarData from the different installations
 #' @import dplyr
+# @importFrom tidyr spread
 # @import d3radarR
 #' @param DATA Data of the installations from \code{\link{collectScientificObject}}
 #' @param object The object layer for the radar plot (can be 'Installation', 'Year', 'Experiments', 'Type')
@@ -30,7 +31,7 @@ radarData <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
     group_by(eval(parse(text = object)), eval(parse(text = variable)))%>%
     count()%>%
     rename(key = 'eval(parse(text = object))', value = n)%>%
-    spread(key = 'eval(parse(text = variable))', value = value, fill = 0)
+    tidyr::spread(key = 'eval(parse(text = variable))', value = value, fill = 0)
     
 
   LDATA = apply(DATA, MARGIN = 1, FUN =  function(x){
@@ -47,5 +48,5 @@ radarData <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
     }
     )
   
-  d3radarR::d3radar(LDATA)
+  return(d3radarR::d3radar(LDATA))
 }

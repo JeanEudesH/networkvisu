@@ -30,7 +30,6 @@
             <h2 >Explore PHIS - Scientific objects</h2>
             <br>
             <div class="col-md-12" id="exploreApp">
-                <!-- form -->
                 Explore the different instances of PHIS currently running. This tool focuses on Scientific Objects and gives some interactive ways of visualizing it. 
                     <div id="tabs" class="container">
   
@@ -82,20 +81,19 @@
                                                     </option>
                                                 </select>
                                                 <br>
-                                                Selected installations:
-                                                <br>
-                                                {{selected}}
                                             </div>
                                             <!-- submit -->
                                             <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                                             <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
                                                 Show BarPlot!
                                             </button>
-                                            <button v-on:click="" class="btn btn-primary"><i class="fa fa-download"></i> Download Graph</button>
-                                            <a href="Graph.png" download="proposed_file_name">Download</a>
+                                            <br>    
+                                            ne marche pas pour le moment : est-ce qu'il y a besoin (un "enregistrer l'image sous..." marche très bien)
+                                            <button v-on:click="download_graph()" class="btn btn-primary"><i class="fa fa-download"></i> Download Graph </button>
+                                            <a id="DownloadGraph">
 
                                             <div class="embed-responsive embed-responsive-16by9" >
-                                                <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                                <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                             </div>
                                         </div>
                                 </div>
@@ -132,7 +130,7 @@
                                                         Show PieChart!
                                                 </button>
                                                 <div class="embed-responsive embed-responsive-16by9" >
-                                                    <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                                    <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                                 </div>
                                             </div>
                                 </div>
@@ -166,7 +164,7 @@
                                             Show Treemap !
                                     </button>
                                     <div class="embed-responsive embed-responsive-16by9" >
-                                        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                        <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                     </div>
                                 </div>
 
@@ -202,7 +200,7 @@
                                                     Show boxplot!
                                             </button>
                                             <div class="embed-responsive embed-responsive-16by9" >
-                                                <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                                <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                             </div>
                                         </div>
                                 </div>
@@ -240,21 +238,18 @@
                                             Show radar!
                                     </button>
                                     <div class="embed-responsive embed-responsive-16by9" >
-                                        <img class="embed-responsive-item" src="Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
+                                        <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
                                     </div>
                                 </div>
                                 </div>
                                 
-                                <div v-if="tabs.activetab === 6"  class="tabcontent">
+                                <div v-if="tabs.activetab === 6" v-on:mouseover="tableSummarised()" class="tabcontent">
                                 <div id="DataTable" >
 
                                     <div class="form-group">
                                         <strong>
                                             <label for="filter"> DataTable of output </label>
                                         </strong>
-
-                                        desired output in an alert ?
-
                                         <br>
                                     </div>
                                     <!-- submit -->
@@ -264,17 +259,12 @@
 
                                     <a id="Download" ></a>
                                     <br>
-                                    <br >   
-                                    <button  class="btn">   refineD </button>
-                                    <button class="btn" v-on:click="tableSummarised()"><i class="fa fa-download"></i> data</button>
                                     <br>
                                             <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=true> Raw<br>
                                             <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=false> Refined<br>
-
-                                        <div  >   
-                                            <table id="mytable" class="display" style="width:80%">
-                                        </div>
-
+                                                <div >   
+                                                    <table id="mytable" class="display" style="width:80%">
+                                                </div>
                                 </div>
                             </div>
                         </div>

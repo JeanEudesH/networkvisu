@@ -50,7 +50,7 @@ barplotGraph <- function(computedDF, parameterOfInterest, filteredInstallation =
     coord_flip()
 
     g1  
-  
+  # inutile ? c'est effacé par opencpu ?
     ggsave(filename = "Graph.png", plot = g1)
   
 }

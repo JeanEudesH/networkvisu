@@ -5,12 +5,13 @@ var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
-      name: ['OpensilexDemo'],
-      api: ['opensilex.org/openSilexAPI/rest/'],
-      RfunctionName: "installationTable"
-      /* name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
+      RfunctionName: "installationTable",
+      name: ['OpensilexDemo', 'Ephesia'],
+      api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/'],
+     
+/*       name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
       api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
-       */
+      */ 
 
     },
     selected: [],
@@ -311,6 +312,13 @@ var App = new Vue({
     })
   );
     },
+    download_graph: function(){
+      var hiddenElement = document.getElementById('DownloadGraph');
+  hiddenElement.href = "image/Graph.png";
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'Graph.png';
+  hiddenElement.click();
+    },
     download_json: function () {
   var raw = this.exportedData.rawData;
   if(raw ==='false'){
@@ -365,7 +373,9 @@ var App = new Vue({
   hiddenElement.click();
     },
     download_xml: function () {
+      alert("XML output not ready for the moment");
   // c'est du node.js 'require'
+  // et ça marche pas :(
   var convert = require('xml-js');
   var raw = this.exportedData.rawData;
   if(raw ==='false'){

@@ -32,6 +32,7 @@ as_xml_document(DATAZ1)
 write(x = toJSON(DATAZ1), file = "file.json")
 write(x = DATAZ1, file = "file.xml")
 
+barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Installation")
 
 aggregatedData = bind_rows(DATA, DATAZ, DATAZ1)
 groupped_DATA = aggregatedData%>%
