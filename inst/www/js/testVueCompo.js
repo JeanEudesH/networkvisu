@@ -100,13 +100,13 @@ var App = new Vue({
     installationTable: function () {
       var self = this;
       installationTable = [
-        this.wsParams.name,
-        this.wsParams.api
+        self.wsParams.name,
+        self.wsParams.api
       ]
       return ocpu.rpc(
         //Create array of variables' options
         // R function name
-        this.wsParams.RfunctionName,
+        self.wsParams.RfunctionName,
         // list of arguments names and value
         {
           instancesNames: self.wsParams.name,
@@ -173,8 +173,8 @@ var App = new Vue({
       var parameterOfInterest = $("#" + self.graphParameters.barplot.parameterOfInterest).val();
       var filteredInstallation = $("#" + self.graphParameters.barplot.filteredInstallation).val();
       var groupBy = $("#" + self.graphParameters.barplot.groupBy).val();
-      var outputName = this.graphParameters.outputName;
-      var iframeInput = this.graphParameters.iframeInput;
+      var outputName = self.graphParameters.outputName;
+      var iframeInput = self.graphParameters.iframeInput;
       return (req = $(iframeInput).rplot(
         self.graphParameters.barplot.functionName,
         {
@@ -435,7 +435,7 @@ var App = new Vue({
   },
   components: {
     'tab-compo': {
-      inheritAttrs: false,
+      inheritAttrs: true,
       props: {
         title: String,
         param1: String,
@@ -443,10 +443,6 @@ var App = new Vue({
         functionname: String,
         outputpath: String,
         filter: Boolean
-      }, methods: {
-        someMethod() {
-          this.$parent.showbarGraph();
-        }
       },
       template: `
         <div class="tabcontent">
@@ -477,19 +473,16 @@ var App = new Vue({
                 <label>Filter by installation ? </label>
             </strong>
             
-            <selecttwo :options="$parent.collectedData.INST" v-model="$parent.selected">
-            <option disabled value="0">Select one</option>
-          </selecttwo>
-
-            <select id="filteredInstallation" v-model="$parent.selected" multiple>
+            <select id="filteredInstallation" v-model="$parent.collectedData.INST" multiple v-for=" Options in $parent.collectedData.INST">
                 <option>
+                {{Options.name}}
                 </option>
             </select>
             <br>
             </div>
             <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             
-            <button id="submit" type="submit" class="btn btn-primary" v-bind="$attrs" v-on:click="$emit('myevent')" v-on:myevent="$parent.showbarGraph()" >
+            <button id="submit" type="submit" class="btn btn-primary" v-bind="$attrs" v-on:click="$emit('myevent')" >
                 Show {{title}} !
             </button>
     
@@ -503,51 +496,3 @@ var App = new Vue({
 })
 
 
-Vue.component('selecttwo', {
-  props: ['options', 'value'],
-  template: `
-  <script type="text/x-template" id="select2-template">
-  <select multiple>
-    <slot></slot>
-  </select>
-</script>`,
-  mounted: function () {
-    var vm = this
-    $(this.$exploreApp)
-      // init select2
-      .select2({ data: this.options })
-      .val(this.value)
-      .trigger('change')
-      // emit event on change.
-      .on('change', function () {
-        vm.$emit('input', this.value)
-      })
-  },
-  watch: {
-    value: function (value) {
-      // update value
-      $(this.$exploreApp)
-      	.val(value)
-      	.trigger('change')
-    },
-    options: function (options) {
-      // update options
-      $(this.$exploreApp).empty().select2({ data: options })
-    }
-  },
-  destroyed: function () {
-    $(this.$exploreApp).off().select2('destroy')
-  }
-})
-
-var vm = new Vue({
-  el: '#el',
-  template: '#demo-template',
-  data: {
-    selected: 2,
-    options: [
-      { id: 'opensilex.org/openSilexAPI/rest/', text: 'OpensilexDemo' },
-      { id: '138.102.159.36:8080/phenomeEphesiaAPI/rest/', text: 'Ephesia' }
-    ]
-  }
-})
