@@ -44,14 +44,26 @@
 
                             <keep-alive>
                                 <tab-compo v-if="tabs.activetab === 1" title="Barplot" param1="parameterOfInterest" param2="groupBy" functionname="showbarGraph()" outputpath="image/Graph.png" style="width:80%; height:90%" v-bind:filter=true>
+                                    
                                 </tab-compo>  
                             </keep-alive>
 
                             <keep-alive>    
-                                <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph" outputpath="image/Graph.png" width="width:70%">
+                                <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph()" outputpath="image/Graph.png" width="width:70%">
                                 </tab-compo>
                             </keep-alive>
                             
+                            <div id="el"></div>
+
+<!-- using string template here to work around HTML <option> placement restriction -->
+<script type="text/x-template" id="demo-template">
+    <selecttwo :options="options" v-model="selected">
+      <option disabled value="0">Select one</option>
+    </selecttwo>
+</script>
+
+
+
                     </div>
             </div>  
         </div> 
