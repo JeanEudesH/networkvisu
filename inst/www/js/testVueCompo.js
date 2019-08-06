@@ -26,15 +26,14 @@ var App = new Vue({
       outputName: "Graph.png",
       barplot: {
         functionName: "barplotGraph",
-        filterBy: "filteredInstallation",
         parameterOfInterest: "parameterOfInterest",
         filteredInstallation: "filteredInstallation",
         groupBy: "groupBy"
       },
       piechart: {
         functionName: "pieGraph",
-        parameterOfInterest: "pieparameterOfInterest",
-        filteredInstallation: "piefilteredInstallation"
+        parameterOfInterest: "parameterOfInterest",
+        filteredInstallation: "filteredInstallation"
       },
       treemap: {
         functionName: "treemapGraph",
@@ -43,8 +42,8 @@ var App = new Vue({
       },
       boxplot: {
         functionName: "boxplotGraph",
-        parameterOfInterest: "boxparameterOfInterest",
-        filteredInstallation: "boxfilteredInstallation"
+        parameterOfInterest: "parameterOfInterest",
+        filteredInstallation: "filteredInstallation"
       },
       radar: {
         functionName: "radarData",
@@ -93,7 +92,7 @@ var App = new Vue({
     },
   },
   mounted: function () {
-    this.fillListInput(inputId = this.graphParameters.barplot.filterBy, inputList = this.wsParams.name);
+    this.fillListInput(inputId = this.graphParameters.barplot.filteredInstallation, inputList = this.wsParams.name);
     this.collectData();
   },
   methods: {
@@ -170,7 +169,7 @@ var App = new Vue({
       $("#cssLoader").addClass("is-active");
       var self = this;
       // Run the R function
-      var parameterOfInterest = $("#" + self.graphParameters.barplot.parameterOfInterest).val();
+      var parameterOfInterest = $("#" + this.graphParameters.barplot.parameterOfInterest).val();
       var filteredInstallation = $("#" + self.graphParameters.barplot.filteredInstallation).val();
       var groupBy = $("#" + self.graphParameters.barplot.groupBy).val();
       var outputName = self.graphParameters.outputName;
@@ -450,7 +449,7 @@ var App = new Vue({
             <br>
             <div class="form-group">
                 <strong> {{param1}}</strong>
-                <select id="param1">   
+                <select v-bind:id="param1">   
                     <option value="Type">Type</option>
                     <option value="Year">Year</option>
                     <option value="Experiments">Experiments</option>
@@ -460,7 +459,7 @@ var App = new Vue({
     
             <div class="form-group">
                 <strong > {{param2}} </strong>
-                <select id="param2">
+                <select v-bind:id="param2">
                     <option value="Type">Type</option>
                     <option value="Year">Year</option>
                     <option value="Experiments">Experiments</option>
@@ -482,12 +481,12 @@ var App = new Vue({
             </div>
             <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             
-            <button id="submit" type="submit" class="btn btn-primary" v-bind="$attrs" v-on:click="$emit('myevent')" >
+            <button id="submit" type="submit" class="btn btn-primary" v-on:click="$emit('myevent')" >
                 Show {{title}} !
             </button>
     
         <div class="embed-responsive embed-responsive-16by9" >
-            <img class="embed-responsive-item" v-bind:src='outputpath' allowfullscreen ></img>
+            <img class="embed-responsive-item" v-bind:src='outputpath' allowfullscreen id='plotDiv' ></img>
         </div>
     
         </div>`

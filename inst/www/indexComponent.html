@@ -48,7 +48,7 @@
                             </keep-alive>
 
                             <keep-alive>    
-                                <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph()" outputpath="image/Graph.png" width="width:70%">
+                                <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showboxplot" v-bind:filter=false>
                                 </tab-compo>
                             </keep-alive>
                     </div>
