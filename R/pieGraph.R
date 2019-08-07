@@ -52,6 +52,6 @@ pieGraph <- function(computedDF, parameterOfInterest, filteredInstallation = FAL
     labs(fill = parameterOfInterest) +
     labs(title = "Proportion of Scientific Objects within the network")
   g4
-  ggsave(filename = "Graph.png", plot = g4)
+  ggsave(filename = "image/Graph.png", plot = g4)
   
 }

@@ -1,11 +1,11 @@
 #-------------------------------------------------------------------------------
-# Program: radarData
-# Objective: collect data from the installations and turn into radar dataset
+# Program: radarGraph
+# Objective: collect data from the installations and turn into radar visualization
 # Creation: 09/07/2019
 # Update:
 #-------------------------------------------------------------------------------
 
-#' @title radarData from the different installations
+#' @title radarGraph from the different installations
 #' @import dplyr
 # @importFrom tidyr spread
 # @import d3radarR
@@ -25,7 +25,7 @@
 #' 
 #' 
 #' }
-radarData <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
+radarGraph <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
 
   DATA = DATA%>%
     group_by(eval(parse(text = object)), eval(parse(text = variable)))%>%
@@ -48,6 +48,6 @@ radarData <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
     }
     )
   radar = d3radarR::d3radar(LDATA)
-  htmlwidgets::saveWidget(widget = radar, file = "Graph.html", selfcontained = FALSE)
+  htmlwidgets::saveWidget(widget = radar, file = "image/Graph.html", selfcontained = FALSE)
   return(radar)
 }

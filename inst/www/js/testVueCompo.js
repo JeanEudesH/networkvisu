@@ -37,8 +37,8 @@ var App = new Vue({
       },
       treemap: {
         functionName: "treemapGraph",
-        class1: "class1",
-        class2: "class2"
+        parameterOfInterest: "parameterOfInterest",
+        groupBy: "groupBy"
       },
       boxplot: {
         functionName: "boxplotGraph",
@@ -47,8 +47,8 @@ var App = new Vue({
       },
       radar: {
         functionName: "radarData",
-        objectOfInterest: "objectOfInterest",
-        variable: "variableOfInterest",
+        parameterOfInterest: "parameterOfInterest",
+        groupBy: "groupBy",
         outputName: "Graph.html"
       }
     },
@@ -229,8 +229,8 @@ var App = new Vue({
       $("#cssLoader").addClass("is-active");
       var self = this;
       // Run the R function
-      var class1 = $("#" + self.graphParameters.treemap.class1).val();
-      var class2 = $("#" + self.graphParameters.treemap.class2).val();
+      var class1 = $("#" + self.graphParameters.treemap.parameterOfInterest).val();
+      var class2 = $("#" + self.graphParameters.treemap.groupBy).val();
       var outputName = this.graphParameters.outputName;
       var iframeInput = this.graphParameters.iframeInput;
       return (req = $(iframeInput).rplot(
@@ -479,16 +479,21 @@ var App = new Vue({
             </select>
             <br>
             </div>
-            <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             
             <button id="submit" type="submit" class="btn btn-primary" v-on:click="$emit('myevent')" >
                 Show {{title}} !
             </button>
     
-        <div class="embed-responsive embed-responsive-16by9" >
+        <div class="embed-responsive embed-responsive-16by9" v-if="outputpath.indexOf('png')!=-1">
             <img class="embed-responsive-item" v-bind:src='outputpath' allowfullscreen id='plotDiv' ></img>
         </div>
     
+
+        <div class="embed-responsive embed-responsive-16by9" v-if="outputpath.indexOf('html')!=-1">
+            <iframe class="embed-responsive-item" v-bind:src='outputpath' allowfullscreen id='plotDiv' ></iframe>
+        </div>
+        indexOf()
+
         </div>`
     }
   }

@@ -38,7 +38,7 @@ treemapGraph <- function(computedDF, class1, class2){
     group_by_all()%>%
     count()
   pal <- RColorBrewer::brewer.pal(name = "Set2", n = 6)
-  png(filename = "Graph.png", width = 500, height = 500)
+  png(filename = "image/Graph.png", width = 500, height = 500)
   treemap::treemap(dtf = typeData, index = c(class1, class2), vSize = "n" ,
           palette =  pal, title = "PHENOME network", type = "index",
           fontsize.labels=c(15,12),bg.labels = 0,

@@ -35,12 +35,15 @@
   
                             <div class="tabs">
                                 <a v-on:click="tabs.activetab=1" v-bind:class="[ tabs.activetab === 1 ? 'active' : '' ]">Barplot</a>
-                                <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Piechart</a>
-                                <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Treemap</a>
-                                <a v-on:click="tabs.activetab=4" v-bind:class="[ tabs.activetab === 4 ? 'active' : '' ]">Boxplot</a>
+                                <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Boxplot</a>
+                                <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Piechart</a>
+                                <a v-on:click="tabs.activetab=4" v-bind:class="[ tabs.activetab === 4 ? 'active' : '' ]">Treemap</a>
                                 <a v-on:click="tabs.activetab=5" v-bind:class="[ tabs.activetab === 5 ? 'active' : '' ]">Radar</a>
                                 <a v-on:click="tabs.activetab=6" v-bind:class="[ tabs.activetab === 6 ? 'active' : '' ]">DataTable</a>
                             </div>
+
+
+                            <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
                             <keep-alive>
                                 <tab-compo v-if="tabs.activetab === 1" title="Barplot" param1="parameterOfInterest" param2="groupBy" functionname="showbarGraph()" outputpath="image/Graph.png" style="width:80%; height:90%" v-bind:filter=true v-on:myevent="showbarGraph" >
@@ -49,6 +52,21 @@
 
                             <keep-alive>    
                                 <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showboxplot" v-bind:filter=false>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 3" title="Piechart" param1="parameterOfInterest" param2="groupBy" functionname="pieGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showpieChart" v-bind:filter=true>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 4" title="Treemap" param1="parameterOfInterest" param2="groupBy" functionname="treemapGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="treemapGraph" v-bind:filter=false>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 5" title="Radar" param1="parameterOfInterest" param2="groupBy" functionname="radarGraph()" outputpath="image/Graph.html" width="width:70%" v-on:myevent="showradar" v-bind:filter=false>
                                 </tab-compo>
                             </keep-alive>
                     </div>

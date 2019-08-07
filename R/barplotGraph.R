@@ -51,6 +51,6 @@ barplotGraph <- function(computedDF, parameterOfInterest, filteredInstallation =
 
     g1  
   # inutile ? c'est effacé par opencpu ?
-    ggsave(filename = "Graph.png", plot = g1)
+    ggsave(filename = "image/Graph.png", plot = g1)
   
 }
