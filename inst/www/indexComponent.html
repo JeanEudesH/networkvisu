@@ -42,9 +42,6 @@
                                 <a v-on:click="tabs.activetab=6" v-bind:class="[ tabs.activetab === 6 ? 'active' : '' ]">DataTable</a>
                             </div>
 
-
-                            <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-
                             <keep-alive>
                                 <tab-compo v-if="tabs.activetab === 1" title="Barplot" param1="parameterOfInterest" param2="groupBy" functionname="showbarGraph()" outputpath="image/Graph.png" style="width:80%; height:90%" v-bind:filter=true v-on:myevent="showbarGraph" >
                                 </tab-compo>  
@@ -69,6 +66,32 @@
                                 <tab-compo v-if="tabs.activetab === 5" title="Radar" param1="parameterOfInterest" param2="groupBy" functionname="radarGraph()" outputpath="image/Graph.html" width="width:70%" v-on:myevent="showradar" v-bind:filter=false>
                                 </tab-compo>
                             </keep-alive>
+
+                            <div v-if="tabs.activetab === 6" v-on:mouseover="tableSummarised()" class="tabcontent">
+                                <div id="DataTable" >
+
+                                 <div class="form-group">
+                                   <strong>
+                                       <label for="filter"> DataTable of output </label>
+                                   </strong>
+                                   <br>
+                                 </div>
+                               <!-- submit -->
+                               <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
+                               <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
+                               <button class="btn" v-on:click="download_xml()"><i class="fa fa-download"></i> Download XML</button>
+
+                               <a id="Download" ></a>
+                               <br>
+                               <br>
+                                       <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=true> Raw<br>
+                                       <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=false> Refined<br>
+                                           <div >   
+                                               <table id="mytable" class="display" style="width:80%">
+                                           </div>
+                                </div>
+                           </div>
+
                     </div>
             </div>  
         </div> 

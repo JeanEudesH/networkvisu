@@ -49,6 +49,6 @@ boxplotGraph = function(computedDF, parameterOfInterest, filteredInstallation = 
     coord_flip()
     g1  
  
-    ggsave(filename = "image/Graph.png", plot = g1)
+    ggsave(filename = "Graph.png", plot = g1)
   
 }

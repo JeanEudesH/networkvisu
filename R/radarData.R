@@ -48,6 +48,6 @@ radarGraph <- function(DATA = NULL, object = 'Installation', variable = 'Year'){
     }
     )
   radar = d3radarR::d3radar(LDATA)
-  htmlwidgets::saveWidget(widget = radar, file = "image/Graph.html", selfcontained = FALSE)
+  htmlwidgets::saveWidget(widget = radar, file = "Graph.html", selfcontained = FALSE)
   return(radar)
 }

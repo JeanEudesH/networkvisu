@@ -6,12 +6,12 @@ var App = new Vue({
   data: {
     wsParams: {
       RfunctionName: "installationTable",
-      name: ['OpensilexDemo', 'Ephesia'],
+/*       name: ['OpensilexDemo', 'Ephesia'],
       api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/'],
-
-      /*       name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
+ */
+            name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
             api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
-            */
+           
 
     },
     selected: [],
@@ -46,7 +46,7 @@ var App = new Vue({
         filteredInstallation: "filteredInstallation"
       },
       radar: {
-        functionName: "radarData",
+        functionName: "radarGraph",
         parameterOfInterest: "parameterOfInterest",
         groupBy: "groupBy",
         outputName: "Graph.html"
@@ -61,7 +61,10 @@ var App = new Vue({
       tabNavId: "navtabs",
       searchedParameters: "searchedParameters"
     },
-    tabs: { activetab: 1 }
+    tabs: { 
+      activetab: 1,
+      isActive: true 
+    }
   },
   computed: {
     INST: function () {
@@ -140,7 +143,7 @@ var App = new Vue({
       $("#" + inputId).select2(finalSelectParameters);
     },
     collectData: function () {
-      document.getElementById("spinner").style.visibility = "visible";
+      document.getElementById("spinner").style.visibility = false;
       var self = this;
       self.installationTable()
       // Fill variables
@@ -158,6 +161,7 @@ var App = new Vue({
         function (output) {
           self.collectedData.computedDF = output
           document.getElementById("spinner").style.visibility = "hidden";
+          self.tabs.loading = "hidden"
           return output;
         }
       ).fail(function (request) {
@@ -480,6 +484,11 @@ var App = new Vue({
             <br>
             </div>
             
+
+
+            <div id = "spinner" class="lds lds-spinner" v-bind:class="$parent.tabs.loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+
             <button id="submit" type="submit" class="btn btn-primary" v-on:click="$emit('myevent')" >
                 Show {{title}} !
             </button>
@@ -492,7 +501,6 @@ var App = new Vue({
         <div class="embed-responsive embed-responsive-16by9" v-if="outputpath.indexOf('html')!=-1">
             <iframe class="embed-responsive-item" v-bind:src='outputpath' allowfullscreen id='plotDiv' ></iframe>
         </div>
-        indexOf()
 
         </div>`
     }
