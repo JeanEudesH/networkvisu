@@ -34,10 +34,9 @@ collectScientificObject <- function(inst=NULL, instancesNames, instancesApi){
     }
   }
   tempData <- apply(X = inst, MARGIN = 1, FUN = function(installation){
-    initializeClientConnection(apiID="ws_private", url = installation['api'])
-    aToken <- getToken("guest@opensilex.org","guest")
-    count <- getScientificObjects(aToken$data, pageSize = 1)$totalCount
-    scientificObjects <- getScientificObjects(aToken$data, pageSize = count)
+    connectToWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest", wsVersion = 2)
+    count <- getScientificObjects(pageSize = 1)$totalCount
+    scientificObjects <- getScientificObjects(pageSize = count)
     wsQuery <- scientificObjects$data  
     
     computedDF <- wsQuery%>%

@@ -34,14 +34,13 @@ collectSensor = function(inst=NULL, instancesNames, instancesApi){
     }
   }
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
-    initializeClientConnection(apiID="ws_private", url = installation['api'])
-    aToken = getToken("guest@opensilex.org","guest")
-    count <- getSensors(aToken$data, pageSize = 1)$totalCount
-    sensors <- getSensors(aToken$data, pageSize = count)
+    connectToWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest", wsVersion = 2)
+    count <- getSensors(pageSize = 1)$totalCount
+    sensors <- getSensors(pageSize = count)
     wsQuery = sensors$data  
     
-    count <- getExperiments2(aToken$data, pageSize = 1)$totalCount
-    exp <- getExperiments2(aToken$data, pageSize = count)
+    count <- getExperiments2(pageSize = 1)$totalCount
+    exp <- getExperiments2(pageSize = count)
     wsQueryE = exp$data$sensors
     sensExp = data.frame(uri = colnames(wsQueryE), experiment =  exp$data$uri)
     computedDF = full_join(sensExp, wsQuery, by="uri")
