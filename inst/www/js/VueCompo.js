@@ -1,17 +1,17 @@
 // comment out this line from development 
-ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
   data: {
     wsParams: {
       RfunctionName: "installationTable",
-/*       name: ['OpensilexDemo', 'Ephesia'],
+      name: ['OpensilexDemo', 'Ephesia'],
       api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/'],
- */
-            name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
+
+/*             name: ['OpensilexDemo', 'Ephesia', 'Test', 'Prod'],
             api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', 'http://138.102.159.37:8080/openSilexTestAPI/rest/', 'http://138.102.159.37:8080/openSilexProdAPI/rest/'],
-           
+ */           
 
     },
     selected: [],
