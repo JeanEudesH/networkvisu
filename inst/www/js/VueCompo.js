@@ -1,5 +1,5 @@
 // comment out this line from development 
-//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
@@ -63,7 +63,7 @@ var App = new Vue({
     },
     tabs: { 
       activetab: 1,
-      isActive: true 
+      loading: true 
     }
   },
   computed: {
@@ -161,7 +161,7 @@ var App = new Vue({
         function (output) {
           self.collectedData.computedDF = output
           document.getElementById("spinner").style.visibility = "hidden";
-          self.tabs.loading = "hidden"
+          self.tabs.loading = false
           return output;
         }
       ).fail(function (request) {
@@ -485,9 +485,9 @@ var App = new Vue({
             </div>
             
 
-
-            <div id = "spinner" class="lds lds-spinner" v-bind:class="$parent.tabs.loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-
+          <transition name="slide-fade">
+            <div id = "spinner" class="lds lds-spinner" v-if="$parent.tabs.loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </transition>
 
             <button id="submit" type="submit" class="btn btn-primary" v-on:click="$emit('myevent')" >
                 Show {{title}} !
