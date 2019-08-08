@@ -35,247 +35,68 @@
   
                             <div class="tabs">
                                 <a v-on:click="tabs.activetab=1" v-bind:class="[ tabs.activetab === 1 ? 'active' : '' ]">Barplot</a>
-                                <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Piechart</a>
-                                <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Treemap</a>
-                                <a v-on:click="tabs.activetab=4" v-bind:class="[ tabs.activetab === 4 ? 'active' : '' ]">Boxplot</a>
+                                <a v-on:click="tabs.activetab=2" v-bind:class="[ tabs.activetab === 2 ? 'active' : '' ]">Boxplot</a>
+                                <a v-on:click="tabs.activetab=3" v-bind:class="[ tabs.activetab === 3 ? 'active' : '' ]">Piechart</a>
+                                <a v-on:click="tabs.activetab=4" v-bind:class="[ tabs.activetab === 4 ? 'active' : '' ]">Treemap</a>
                                 <a v-on:click="tabs.activetab=5" v-bind:class="[ tabs.activetab === 5 ? 'active' : '' ]">Radar</a>
                                 <a v-on:click="tabs.activetab=6" v-bind:class="[ tabs.activetab === 6 ? 'active' : '' ]">DataTable</a>
                             </div>
-                         
-                            <div class="content">
-                                <div v-if="tabs.activetab === 1" class="tabcontent">
-                                        <div id="BarPlot">
-                                            <!-- parameterOfInterest -->
-                                            <div class="form-group">
-                                                <br>
-                                                <strong>
-                                                    <label> Parameter of interest </label>
-                                                </strong>
-                                                <select id="parameterOfInterest" name="parameterOfInterest">
-                                                    <option value="Type">Type</option>
-                                                    <option value="Year">Year</option>
-                                                    <option value="Experiments">Experiments</option>
-                                                    <option value="Installation">Installation</option>
-                                                </select> 
-                                            </div>
-                                            <!-- groupBy -->
-                                            <div class="form-group">
-                                                <strong>
-                                                    <label> Group By </label>
-                                                </strong>
-                                                <select id="groupBy" name="groupBy">
-                                                    <option value="Type">Type</option>
-                                                    <option value="Year">Year</option>
-                                                    <option value="Experiments">Experiments</option>
-                                                    <option value="Installation">Installation</option>
-                                                </select> 
-                                            </div>
-                                            <div class="form-group">
-                                                <strong>
-                                                    <label>Filter by installation ? </label>
-                                                </strong>
 
-                                                <select id="filteredInstallation" v-model="selected" multiple>
-                                                    <option v-for="option in collectedData.INST" v-bind:value="option.api">
-                                                        {{ option.name }}
-                                                    </option>
-                                                </select>
-                                                <br>
-                                            </div>
-                                            <!-- submit -->
-                                            <div id = "spinner" class="lds lds-spinner"  style="visibility:visible"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                                            <button id="submit" type="submit" class="btn btn-primary" v-on:click.prevent="showbarGraph">
-                                                Show BarPlot!
-                                            </button>
-                                            <br>    
-                                            ne marche pas pour le moment : est-ce qu'il y a besoin (un "enregistrer l'image sous..." marche très bien)
-                                            <button v-on:click="download_graph()" class="btn btn-primary"><i class="fa fa-download"></i> Download Graph </button>
-                                            <a id="DownloadGraph"></a>
+                            <keep-alive>
+                                <tab-compo v-if="tabs.activetab === 1" title="Barplot" param1="parameterOfInterest" param2="groupBy" functionname="showbarGraph()" outputpath="image/Graph.png" style="width:80%; height:90%" v-bind:filter=true v-on:myevent="showbarGraph" >
+                                </tab-compo>  
+                            </keep-alive>
 
-                                            <div class="embed-responsive embed-responsive-16by9" >
-                                                <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
-                                            </div>
-                                        </div>
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showboxplot" v-bind:filter=false>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 3" title="Piechart" param1="parameterOfInterest" param2="groupBy" functionname="pieGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showpieChart" v-bind:filter=true>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 4" title="Treemap" param1="parameterOfInterest" param2="groupBy" functionname="treemapGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="treemapGraph" v-bind:filter=false>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <keep-alive>    
+                                <tab-compo v-if="tabs.activetab === 5" title="Radar" param1="parameterOfInterest" param2="groupBy" functionname="radarGraph()" outputpath="image/Graph.html" width="width:70%" v-on:myevent="showradar" v-bind:filter=false>
+                                </tab-compo>
+                            </keep-alive>
+
+                            <div v-if="tabs.activetab === 6" v-on:mouseover="tableSummarised()" class="tabcontent">
+                                <div id="DataTable" >
+
+                                 <div class="form-group">
+                                   <strong>
+                                       <label for="filter"> DataTable of output </label>
+                                   </strong>
+                                   <br>
+                                 </div>
+                               <!-- submit -->
+                               <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
+                               <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
+                               <button class="btn" v-on:click="download_xml()"><i class="fa fa-download"></i> Download XML</button>
+
+                               <a id="Download" ></a>
+                               <br>
+                               <br>
+                                       <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=true> Raw<br>
+                                       <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=false> Refined<br>
+                                           <div >   
+                                               <table id="mytable" class="display" style="width:80%">
+                                           </div>
                                 </div>
+                           </div>
 
-                                <div v-if="tabs.activetab === 2" class="tabcontent">
-                                            <div id="pieChart">
-                                                    <!-- parameterOfInterest -->
-                                                <div class="form-group">
-                                                    <br>
-                                                    <strong>
-                                                        <label for="parameterOfInterest"> Parameter of interest </label>
-                                                    </strong>
-                                                    <select id="pieparameterOfInterest" name="parameterOfInterest">
-                                                        <option value="Type">Type</option>
-                                                        <option value="Year">Year</option>
-                                                        <option value="Experiments">Experiments</option>
-                                                        <option value="Installation">Installation</option>
-                                                    </select> 
-                                                </div>
-                                                <div class="form-group">
-                                                    <strong>
-                                                        <label for="filter"> Filter by installation ? </label>
-                                                    </strong>
-                                                    <select id="piefilteredInstallation" name="filteredInstallation"   config="multiple: true">
-                                                        <option value="FALSE">All</option>
-                                                    </select> 
-                                                    <br>
-                                                    Avaliable installations:
-                                                    <br>
-                                                    {{INST[0]}}
-                                                </div>
-                                                <!-- submit -->
-                                                <button id="submitPie" type="submit" class="btn btn-primary" v-on:click.prevent="showpieChart">
-                                                        Show PieChart!
-                                                </button>
-                                                <div class="embed-responsive embed-responsive-16by9" >
-                                                    <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
-                                                </div>
-                                            </div>
-                                </div>
-
-                                <div v-if="tabs.activetab === 3" class="tabcontent">
-                                        <div class="form-group">
-                                            <br>
-                                        <strong>
-                                            <label for="class1"> Parameter of interest 1</label>
-                                        </strong>
-                                        <select id="class1" name="class1">
-                                            <option value="Type">Type</option>
-                                            <option value="Year">Year</option>
-                                            <option value="Experiments">Experiments</option>
-                                            <option value="Installation">Installation</option>
-                                        </select> 
-                                    
-                                    <!-- groupBy -->
-                                    <br>
-                                        <strong>
-                                            <label for="class2"> Parameter of interest 2 </label>
-                                        </strong>
-                                        <select id="class2" name="class2">
-                                            <option value="Type">Type</option>
-                                            <option value="Year">Year</option>
-                                            <option value="Experiments">Experiments</option>
-                                            <option value="Installation">Installation</option>
-                                        </select> 
-                                    </div>
-                                    <button id="submitTreemap" type="submit" class="btn btn-primary" v-on:click.prevent="treemapGraph">
-                                            Show Treemap !
-                                    </button>
-                                    <div class="embed-responsive embed-responsive-16by9" >
-                                        <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
-                                    </div>
-                                </div>
-
-                                <div v-if="tabs.activetab === 4" class="tabcontent">
-                                        <div id="boxplot">
-                                                <!-- parameterOfInterest -->
-                                            <div class="form-group">
-                                                <br>
-                                                <strong>
-                                                    <label for="parameterOfInterest"> Parameter of interest </label>
-                                                </strong>
-                                                <select id="boxparameterOfInterest" name="parameterOfInterest">
-                                                    <option value="Type">Type</option>
-                                                    <option value="Year">Year</option>
-                                                    <option value="Experiments">Experiments</option>
-                                                    <option value="Installation">Installation</option>
-                                                </select> 
-                                            </div>
-                                            <div class="form-group">
-                                                <strong>
-                                                    <label for="filter"> Filter by installation ? </label>
-                                                </strong>
-                                                <select id="boxfilteredInstallation" name="filteredInstallation"   config="multiple: true">
-                                                    <option value="FALSE">All</option>
-                                                </select> 
-                                                <br>
-                                                Avaliable installations:
-                                                <br>
-                                                {{INST[0]}}
-                                            </div>
-                                            <!-- submit -->
-                                            <button id="submitbox" type="submit" class="btn btn-primary" v-on:click.prevent="showboxplot">
-                                                    Show boxplot!
-                                            </button>
-                                            <div class="embed-responsive embed-responsive-16by9" >
-                                                <img class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:70%; height:70%"></img>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                <div v-if="tabs.activetab === 5" class="tabcontent">
-                                <div id="radar">
-                                        <!-- parameterOfInterest -->
-                                    <div class="form-group">
-                                        <br>
-                                        <strong>
-                                            <label for="objectOfInterest"> Object of interest </label>
-                                        </strong>
-                                        <select id="objectOfInterest" name="parameterOfInterest">
-                                            <option value="Type">Type</option>
-                                            <option value="Year">Year</option>
-                                            <option value="Experiments">Experiments</option>
-                                            <option value="Installation">Installation</option>
-                                        </select> 
-                                    </div>
-                                    <div class="form-group">
-                                        <br>
-                                        <strong>
-                                            <label for="variable"> Variable of interest </label>
-                                        </strong>
-                                        <select id="variableOfInterest" name="parameterOfInterest">
-                                            <option value="Type">Type</option>
-                                            <option value="Year">Year</option>
-                                            <option value="Experiments">Experiments</option>
-                                            <option value="Installation">Installation</option>
-                                        </select> 
-                                    </div>
-
-                                    <!-- submit -->
-                                    <button id="submitradar" type="submit" class="btn btn-primary" v-on:click.prevent="showradar">
-                                            Show radar!
-                                    </button>
-                                    <div class="embed-responsive embed-responsive-16by9" >
-                                        <iframe class="embed-responsive-item" src="image/Graph.png" id="plotDiv" allowfullscreen style="width:90%;height:80%;"  frameborder="0"></iframe>
-                                    </div>
-                                </div>
-                                </div>
-                                
-                                <div v-if="tabs.activetab === 6" v-on:mouseover="tableSummarised()" class="tabcontent">
-                                     <div id="DataTable" >
-
-                                      <div class="form-group">
-                                        <strong>
-                                            <label for="filter"> DataTable of output </label>
-                                        </strong>
-                                        <br>
-                                      </div>
-                                    <!-- submit -->
-                                    <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
-                                    <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
-                                    <button class="btn" v-on:click="download_xml()"><i class="fa fa-download"></i> Download XML</button>
-
-                                    <a id="Download" ></a>
-                                    <br>
-                                    <br>
-                                            <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=true> Raw<br>
-                                            <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=false> Refined<br>
-                                                <div >   
-                                                    <table id="mytable" class="display" style="width:80%">
-                                                </div>
-                                     </div>
-                                </div>
-                        </div>
-                            <hr>
                     </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- plotDiv -->
-
+            </div>  
+        </div> 
+    </div> 
+</body>
     <!-- vue.JS -->
     <script src="js/vue.js"></script>
     <!-- jquery -->
@@ -290,7 +111,8 @@
     <!-- opencpu client -->
     <script src="js/opencpu-0.5.js"></script>
     <!-- user script -->
-    <script src="js/appVue.js"></script>
+    <script src="js/VueCompo.js"></script>
+   <!--  <script src="js/appVue.js"></script> -->
     
 </body>
 </html>
