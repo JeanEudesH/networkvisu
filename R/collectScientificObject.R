@@ -34,7 +34,7 @@ collectScientificObject <- function(inst=NULL, instancesNames, instancesApi){
     }
   }
   tempData <- apply(X = inst, MARGIN = 1, FUN = function(installation){
-    connectToWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest", wsVersion = 2)
+    connectToOpenSILEXWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest")
     count <- getScientificObjects(pageSize = 1)$totalCount
     scientificObjects <- getScientificObjects(pageSize = count)
     wsQuery <- scientificObjects$data  

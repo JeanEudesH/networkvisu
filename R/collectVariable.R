@@ -34,7 +34,7 @@ collectVariable = function(inst=NULL, instancesNames, instancesApi){
     }
   }
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
-    connectToWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest", wsVersion = 2)
+    connectToOpenSILEXWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest")
     count <- getVariables2(pageSize = 1)$totalCount
     vars <- getVariables2(pageSize = count)
     wsQuery = vars$data  
