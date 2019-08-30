@@ -1,0 +1,35 @@
+# function available minimum required
+availableFunctions:
+  - barplotGraph
+  - boxplotGraph
+  - exportData
+  - pieGraph
+  - radarGraph
+  - treemapGraph
+
+integratedFunctions:
+# web client integrated function configuration
+  barplotGraph:
+    description : |
+      A function to visualize the scientific objects with a barplot
+    label: "barplot visualization"
+  boxplotGraph:
+    description: |
+      A function to visualize the scientific objects with a boxplot
+      label: "boxplot visualization"
+  pieChart:
+    description : |
+      A function to visualize the scientific objects with a piechart
+    label: "piechart visualization"
+  radarGraph:
+    description : |
+      A function to visualize the scientific objects with a radar chart
+    label: "radar visualization"
+  treemapGraph:
+    description : |
+      A function to visualize the scientific objects with a treemap
+    label: "treemap visualization"
+  exportData:
+    description : |
+      A function to export the table of scientific objects as csv or json
+    label: "Export the data"
