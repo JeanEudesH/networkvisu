@@ -6,11 +6,11 @@ var App = new Vue({
   data: {
     wsParams: {
       RfunctionName: "installationTable",
-/*       name: ["Diaphen", "OpensilexDemo", "Agrophen", "Pheno3C", "Phenovia", "PhenoField", "Ephesia"],
+      /* name: ["Diaphen", "OpensilexDemo", "Agrophen", "Pheno3C", "Phenovia", "PhenoField", "Ephesia"],
       api: ["147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
      */  
-            name: ['OpensilexDemo', 'Ephesia', 'Pheno3C'],
-            api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/', '147.100.175.121:8080/phenomePheno3cAPI/rest/'],
+            name: ['OpensilexDemo', 'Ephesia'],
+            api: ['opensilex.org/openSilexAPI/rest/', '138.102.159.36:8080/phenomeEphesiaAPI/rest/'],
            
 
     },
