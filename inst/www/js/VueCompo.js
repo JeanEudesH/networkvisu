@@ -1,5 +1,5 @@
 // comment out this line from development 
-ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
