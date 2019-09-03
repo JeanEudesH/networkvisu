@@ -75,12 +75,15 @@ var App = new Vue({
     },
     refineDF: function(){
       var self = this;
+      var data = self.collectedData.computedDF;
+      var format = self.exportedData.format;
+      var filename = self.exportedData.filename;
       return ocpu.rpc(
         self.exportedData.functionName,
         {
-          DATA: self.collectedData.computedDF,
-          format: self.exportedData.format,
-          filename: self.exportedData.filename,
+          DATA: data,
+          format: format,
+          filename: filename,
           rawData: 'FALSE'
         }, 
          function(df) {
