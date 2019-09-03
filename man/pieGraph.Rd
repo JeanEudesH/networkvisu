@@ -25,7 +25,7 @@ INST = installationTable(
            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
            instancesNames = c("opensilexDemo")
        )
-DATA = collectData(INST)
+DATA = collectScientificObject(INST)
 pieGraph(DATA, parameterOfInterest = "Type")
 }
 }

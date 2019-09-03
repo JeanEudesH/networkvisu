@@ -28,7 +28,7 @@ INST = installationTable(
            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
            instancesNames = c("opensilexDemo")
        )
-DATA = collectData(INST)
+DATA = collectScientificObject(INST)
 barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Experiments")
 barplotGraph(DATA, parameterOfInterest = "Year", groupBy = "Type")
 }
