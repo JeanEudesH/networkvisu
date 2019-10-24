@@ -1,6 +1,6 @@
 Package: networkVisu
 Type: Package
-Title: Explore ennp2020 network of scientific objects
+Title: Explore EMPHASIS-LAYER network of scientific objects
 Version: 0.4.0
 Author: Jean-Eudes Hollebecq
 Maintainer: The package maintainer <jean-eudes.hollebecq@inra.fr>

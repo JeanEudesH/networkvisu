@@ -34,7 +34,7 @@ collectSensor = function(inst=NULL, instancesNames, instancesApi){
     }
   }
   tempData = apply(X = inst, MARGIN = 1, FUN = function(installation){
-    connectToOpenSILEXWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest")
+    connectToPHISWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest")
     count <- getSensors(pageSize = 1)$totalCount
     sensors <- getSensors(pageSize = count)
     wsQuery = sensors$data  

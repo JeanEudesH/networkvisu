@@ -9,7 +9,11 @@
 #' @import dplyr
 #' @import phisWSClientR
 #' @import stringr
-#' @importFrom  jsonlite fromJSON
+#' @import parallel
+#' @import doParallel
+#' @import foreach
+#' @importFrom jsonlite fromJSON
+#' @importFrom foreach %dopar%
 #' @param inst informations of the installations from \code{\link{installationTable}}
 #' @param instancesNames the name of the installation(s)
 #' @param instancesApi the address of the REST API of the installation(s)
@@ -18,7 +22,7 @@
 #'
 #' @examples
 #' \donttest{
-#' INST = installationTable(
+#' INST = list(
 #'            instancesApi = c("opensilex.org/openSilexAPI/rest/"),
 #'            instancesNames = c("opensilexDemo")
 #'        )
@@ -33,26 +37,25 @@ collectScientificObject <- function(inst=NULL, instancesNames, instancesApi){
       inst <- fromJSON(inst)
     }
   }
-  tempData <- apply(X = inst, MARGIN = 1, FUN = function(installation){
-    connectToOpenSILEXWS(apiID="ws_private", url = installation['api'], username = "guest@opensilex.org", password = "guest")
+  cl <- min(dim(inst)[1], parallel::detectCores()-2)
+  doParallel::registerDoParallel(cl)
+  tempData = foreach::foreach(i = 1:dim(inst)[1], .combine=rbind) %dopar% {
+
+    installation = as.matrix(inst[i,])
+    connectToPHISWS(apiID="ws_private", url = installation[2], username = "guest@opensilex.org", password = "guest")
     count <- getScientificObjects(pageSize = 1)$totalCount
     scientificObjects <- getScientificObjects(pageSize = count)
-    wsQuery <- scientificObjects$data  
+    wsQuery <- as.data.frame(scientificObjects$data[-7]) #the properties columns being from various size, triplets, for the moment just ignore it.
     
     computedDF <- wsQuery%>%
       select(rdfType, experiment)%>%
       mutate(Type = str_sub(rdfType, start = str_locate(rdfType, pattern = "#")[,1]+1, end = str_locate(rdfType, pattern = "#")[,1]+16))%>%
       mutate(Experiments = sapply(str_split(experiment, pattern = "/"), FUN = function(X){X[5]}))%>%
       mutate(Year = str_sub(experiment, start = str_locate(experiment, pattern = "20")[,1], end = str_locate(experiment, pattern = "20")[,2]+2))%>%
-      mutate(Installation = installation['name'])%>%
-      select(-experiment, -rdfType)
-    return(computedDF)
-  }
-  )
-  computedDF <- data.frame()
-  for( i in 1:length(tempData)){
-    computedDF <- rbind(computedDF, tempData[[i]])
+      mutate(Installation = installation[1])%>%
+      select(-experiment, -rdfType)%>%
+      filter(!(Year =="<NA>"))
   }
   
-  return(data = computedDF)
+  return(data = tempData)
 }

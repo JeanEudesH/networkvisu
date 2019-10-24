@@ -9,6 +9,7 @@
 #' @import dplyr
 #' @importFrom  jsonlite toJSON
 #' @importFrom  utils write.csv
+#' @importFrom  tidyr replace_na
 #' @param DATA Data of the installations from \code{\link{collectScientificObject}}
 #' @param format The format desired
 #' @param rawData Want to download the raw data or the refined ones ?
