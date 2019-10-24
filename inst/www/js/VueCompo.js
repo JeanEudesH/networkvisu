@@ -295,7 +295,7 @@ var App = new Vue({
       var self = this;
       // Run the R function
       var objectOfInterest = $("#" + self.graphParameters.radar.objectOfInterest).val();
-      var variable = $("#" + self.graphParameters.radar.variable).val();
+      var variable = $("#" + self.graphParameters.radar.parameterOfInterest).val();
       var outputName = this.graphParameters.radar.outputName;
       var iframeInput = this.graphParameters.iframeInput;
       return (req = ocpu.call(
