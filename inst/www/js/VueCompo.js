@@ -1,5 +1,5 @@
 // comment out this line from development 
-//ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
+ocpu.seturl("http://0.0.0.0:8004/ocpu/library/networkVisu/R");
 //ocpu.seturl("http://localhost:5656/ocpu/library/networkVisu/R");
 var App = new Vue({
   el: "#exploreApp",
@@ -9,8 +9,8 @@ var App = new Vue({
       /* name: ["Diaphen", "OpensilexDemo", "Agrophen", "Pheno3C", "Phenovia", "PhenoField", "Ephesia"],
       api: ["147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/", "147.100.175.121:8080/phenomeAgrophenAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePhenofieldAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"],
      */  
-      name: ["Diaphen", "OpensilexDemo", "Phenovia", "Pheno3C", "Ephesia"],
-      api: ["147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/",  "147.100.175.121:8080/phenomePhenoviaAPI/rest/", "147.100.175.121:8080/phenomePheno3cAPI/rest/", "138.102.159.36:8080/phenomeEphesiaAPI/rest/"], 
+      name: ["Diaphen", "OpensilexDemo", "Ephesia"],
+      api: ["147.100.175.121:8080/phenomeDiaphenAPI/rest/", "opensilex.org/openSilexAPI/rest/",  "138.102.159.36:8080/phenomeEphesiaAPI/rest/"], 
            
 
     },
