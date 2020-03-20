@@ -37,32 +37,46 @@
                                 <a v-on:click="tabs.activetab=6" v-bind:class="[ tabs.activetab === 6 ? 'active' : '' ]">DataTable</a>
                             </div>
 
-                            <keep-alive>
-                                <tab-compo v-if="tabs.activetab === 1" title="Barplot" param1="parameterOfInterest" param2="groupBy" functionname="showbarGraph()" outputpath="image/Graph.png" style="width:80%; height:90%" v-bind:filter=true v-on:myevent="showbarGraph" >
-                                </tab-compo>  
-                            </keep-alive>
+                            <div class="tabcontent" v-if="tabs.activetab === 1">
+                                <h1>Barplot</h1>
+                                <br>
+                                <div class="form-group" style="Text-align:left;Width:20%;float:left">
+                                    <select id="select_id_1">   
+                                        <option value="Type">Type</option>
+                                        <option value="Year">Year</option>
+                                        <option value="Experiments">Experiments</option>
+                                        <option value="Installation">Installation</option>
+                                    </select> 
+                                </div>
+                        
+                                <div class="form-group" style="Text-align:right;Width:20%;float:right">
+                                    <strong > argument au choix </strong>
+                                    <select id=parameterOfInterest>
+                                        <option value="Type">Type</option>
+                                        <option value="Year">Year</option>
+                                        <option value="Experiments">Experiments</option>
+                                        <option value="Installation">Installation</option>
+                                    </select> 
+                                </div>
+                                <br>
+                            
+                                    <!-- pour appeler une fonction js grace à vue, utiliser les v-on:event -->
+                                <button id="submit" type="submit" class="btn btn-primary" v-on:click="showbarGraph()" >
+                                    Show bargraph !
+                                </button>
+                                <br>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <img class="embed-responsive-item" src='image/Graph.png' allowfullscreen id='plotDiv' ></img>
+                                </div>
+                            </div>
 
-                            <keep-alive>    
-                                <tab-compo v-if="tabs.activetab === 2" title="Boxplot" param1="parameterOfInterest" param2="groupBy" functionname="boxplotGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showboxplot" v-bind:filter=false>
-                                </tab-compo>
-                            </keep-alive>
-
-                            <keep-alive>    
-                                <tab-compo v-if="tabs.activetab === 3" title="Piechart" param1="parameterOfInterest" param2="groupBy" functionname="pieGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="showpieChart" v-bind:filter=true>
-                                </tab-compo>
-                            </keep-alive>
-
-                            <keep-alive>    
-                                <tab-compo v-if="tabs.activetab === 4" title="Treemap" param1="parameterOfInterest" param2="groupBy" functionname="treemapGraph()" outputpath="image/Graph.png" width="width:70%" v-on:myevent="treemapGraph" v-bind:filter=false>
-                                </tab-compo>
-                            </keep-alive>
-
-                            <keep-alive>    
-                                <tab-compo v-if="tabs.activetab === 5" title="Radar" param1="parameterOfInterest" param2="groupBy" functionname="radarGraph()" outputpath="image/Graph.html" width="width:70%" v-on:myevent="showradar" v-bind:filter=false>
-                                </tab-compo>
-                            </keep-alive>
+                            <div v-if="tabs.activetab === 5">
+                                <h1>Onglet 5</h1>
+                                <p> contenu onglet </p> 
+                            </div>
 
                             <div v-if="tabs.activetab === 6" v-on:mouseover="tableSummarised()" class="tabcontent">
+                                <h1>     onglet 6  </h1>
                                 <div id="DataTable" >
                                     <div class="form-group">
                                         <strong>
@@ -70,16 +84,14 @@
                                         </strong>
                                         <br>
                                     </div>
-                               <!-- submit -->
-                               <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
-                               <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
-                               <button class="btn" v-on:click="download_xml()"><i class="fa fa-download"></i> Download XML</button>
+                                <!-- submit -->
+                                <button class="btn" v-on:click="download_json()"><i class="fa fa-download"></i> Download JSON</button>
+                                <button class="btn" v-on:click="download_csv()"><i class="fa fa-download"></i> Download CSV</button>
+                                <button class="btn" v-on:click="download_xml()"><i class="fa fa-download"></i> Download XML</button>
 
-                               <a id="Download" ></a>
-                               <br>
-                               <br>
-                                    <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=true> Raw
-                                    <input v-model="exportedData.rawData" v-on:click="tableSummarised()" type="radio" name="rawData" value=false> Refined<br>  
+                                <a id="Download" ></a>
+                                <br>
+                                <br>
                                     <table id="mytable" class="display" style="width:80%">
                                 </div>
                            </div>
@@ -87,15 +99,14 @@
             </div>  
         </div> 
     </div> 
+    <script src="js/vue.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src='js/jquery.dataTables.js'></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/opencpu-0.5.js"></script>
+    <script src="js/VueCompo.js"></script>
 </body>
-<script src="js/vue.js"></script>
-<script src="js/jquery.min.js"></script>
-<script href="js/jquery-ui.js"></script>
-<script src='js/jquery.dataTables.js'></script>
-<script src="js/tether.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/select2.min.js"></script>
-<script src="js/opencpu-0.5.js"></script>
-<script src="js/VueCompo.js"></script>
-<!--  <script src="js/appVue.js"></script> -->
 </html>
