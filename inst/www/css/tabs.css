@@ -18,7 +18,7 @@
 .tabs {
     overflow: hidden;
   margin-left: 20px;
-    margin-bottom: -2px; // hide bottom border
+    margin-bottom: -2px; /* hide bottom border */
 }
 
 .tabs ul {
